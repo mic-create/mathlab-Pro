@@ -32,10 +32,10 @@ if 'system_kernel_status' not in st.session_state:
 # Advanced CSS Injection for a Premium Digital Lab Environment
 st.markdown("""
     <style>
-    /* Global Background Accent Framework */
+    /* Global Background Accent Framework - Adjusted to look for 'My Logo.png' in root directory */
     .stApp {
         background: linear-gradient(rgba(10, 10, 20, 0.94), rgba(12, 12, 24, 0.97)), 
-                    url("app/static/My Logo.png") no-repeat center center fixed;
+                    url("My Logo.png") no-repeat center center fixed;
         background-size: cover !important;
     }
     
@@ -54,7 +54,7 @@ st.markdown("""
         border: 1px solid rgba(99, 102, 241, 0.3);
         padding: 1.2rem;
         border-radius: 14px;
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.5rem;
         text-align: center;
     }
     
@@ -198,6 +198,15 @@ with st.sidebar:
         </div>
     """, unsafe_allow_html=True)
     
+    # Safe multi-path asset checkpoint fallback loader
+    try:
+        st.image("My Logo.png", use_container_width=True)
+    except Exception:
+        try:
+            st.image("app/static/My Logo.png", use_container_width=True)
+        except Exception:
+            st.caption("⚠️ [My Logo.png asset placeholder trace]")
+            
     st.markdown("<p style='color: #64748B; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom: 0.4rem;'>Nav Matrix</p>", unsafe_allow_html=True)
     page = st.selectbox(
         "Navigation Select",
