@@ -27,7 +27,7 @@ if 'quiz_score' not in st.session_state:
 if 'quiz_current' not in st.session_state:
     st.session_state.quiz_current = None
 
-# Custom CSS for Premium Sidebar, Dashboard, & Mobile Grid Layout
+# Custom CSS for Premium Sidebar, Dashboard, & Anti-Stack Mobile Grid
 st.markdown("""
     <style>
     /* Global Background Adjustments */
@@ -63,11 +63,20 @@ st.markdown("""
         box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
     }
     
-    /* Force Calculator Buttons into a Grid Matrix on Mobile Screens */
-    [data-testid="column"] {
-        width: calc(20% - 0.5rem) !important;
-        flex: 1 1 calc(20% - 0.5rem) !important;
-        min-width: calc(20% - 0.5rem) !important;
+    /* --- CRITICAL PHONE HORIZONTAL ROW INLINE FIX --- */
+    /* Force the primary layout containers to maintain horizontal layout on mobile */
+    [data-testid="stHorizontalBlock"] {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        width: 100% !important;
+    }
+    
+    /* Force column structures to hold a fixed 20% width grid allocation */
+    [data-testid="stHorizontalBlock"] > [data-testid="column"] {
+        width: calc(20% - 0.4rem) !important;
+        flex: 1 1 calc(20% - 0.4rem) !important;
+        min-width: 10px !important;
     }
     
     /* Modern Dashboard Cards */
@@ -137,11 +146,11 @@ DICT_DB = {
 # 3. SIDEBAR NAVIGATION & LOGO
 # ==========================================
 with st.sidebar:
-    # Dedicated Logo Channel using your specified local file path
+    # Custom logo string path configuration
     try:
-        st.image("My Logo.png", use_container_width=True)
+        st.image("My Loho.png", use_container_width=True)
     except Exception:
-        # Graceful text fallback if file missing
+        # Fallback if image path can't be resolved locally
         st.markdown("<h2 style='color: #6366F1; margin-bottom: 0;'>Overah Core</h2>", unsafe_allow_html=True)
         
     st.title("🧪 MathLab Pro")
@@ -316,7 +325,7 @@ elif page == "🧮 Smart Calculator":
                                 internal_expr = internal_expr.replace('x³', '**3')
                                 internal_expr = internal_expr.replace('√(', 'sqrt(')
                                 
-                                # Enforce standard base-10 log calculations safely
+                                # Enforce base-10 log calculations safely
                                 if 'log(' in internal_expr:
                                     parsed_expr = sp.sympify(internal_expr, local_dict={'log': lambda x: sp.log(x, 10)})
                                 else:
