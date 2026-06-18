@@ -26,33 +26,25 @@ if 'quiz_score' not in st.session_state:
     st.session_state.quiz_score = {'correct': 0, 'total': 0}
 if 'quiz_current' not in st.session_state:
     st.session_state.quiz_current = None
+if 'calc_input' not in st.session_state:
+    st.session_state.calc_input = ""
 
-# Custom CSS for Background Image, Circular Buttons, & Responsive Mobile Matrix
+# Custom CSS for Full Background Image, Circular Buttons & Mobile Preservation
 st.markdown("""
     <style>
-    /* Global Background Adjustments & Custom Logo Watermark Background */
-    .main .block-container { 
-        padding-top: 2rem; 
-        position: relative;
-        z-index: 1;
+    /* Global App Wallpaper Background Injection */
+    .stApp {
+        background: linear-gradient(rgba(15, 15, 22, 0.88), rgba(15, 15, 22, 0.94)), 
+                    url("app/static/My Logo.png") no-repeat center center fixed;
+        background-size: cover !important;
     }
     
-    .main::before {
-        content: "";
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background-image: url("app/static/My Loho.png"); /* Serves the local file from streamlit static path */
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 40%; /* Adjust size of background watermark */
-        opacity: 0.04;        /* Very light opacity to keep text perfectly legible */
-        z-index: -1;
-        pointer-events: none;
-    }
+    /* Global Page Padding */
+    .main .block-container { padding-top: 2rem; }
     
     /* Advanced Sidebar Styling */
     [data-testid="stSidebar"] {
-        background-color: #0F0F16 !important;
+        background-color: rgba(15, 15, 22, 0.95) !important;
         border-right: 1px solid #222336;
     }
     
@@ -66,52 +58,56 @@ st.markdown("""
     div.stButton > button:first-child {
         background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%); 
         color: white; 
-        border-radius: 50% !important;     /* Perfect Circle */
+        border-radius: 50% !important;     /* Perfect circle shape */
         border: none;
-        padding: 0 !important;             /* Clear standard padding */
-        width: 2.8rem !important;          /* Fixed identical width and height */
-        height: 2.8rem !important;         
-        font-size: 0.95rem !important;     
+        padding: 0 !important;             
+        width: 3.2rem !important;          /* Width & Height equal to secure circles */
+        height: 3.2rem !important;         
+        font-size: 1.1rem !important;     
         font-weight: 600;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto !important;         /* Center keys inside layout */
-        box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+        margin: 0 auto !important;         
+        box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
         transition: all 0.2s ease;
         touch-action: manipulation !important;
     }
     
     div.stButton > button:first-child:hover { 
         background: linear-gradient(135deg, #4338CA 0%, #2563EB 100%); 
-        transform: scale(1.08);             /* Pop effect */
-        box-shadow: 0 6px 14px rgba(79, 70, 229, 0.3);
+        transform: scale(1.08);
+        box-shadow: 0 6px 14px rgba(79, 70, 229, 0.35);
     }
     
-    /* --- CRITICAL PHONE HORIZONTAL ROW INLINE FIX --- */
+    /* Force Layout Rows to stay Horizontal and avoid Mobile Stacking */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         width: 100% !important;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem !important;
     }
     
+    /* Dynamic grid spacing for circular elements */
     [data-testid="stHorizontalBlock"] > [data-testid="column"] {
-        width: calc(20% - 0.3rem) !important;
-        flex: 1 1 calc(20% - 0.3rem) !important;
+        width: calc(16.6% - 0.4rem) !important;
+        flex: 1 1 calc(16.6% - 0.4rem) !important;
         min-width: 10px !important;
     }
     
-    /* Modern Dashboard Cards */
+    /* Modern Content Cards */
     .metric-card {
-        background: #161624; 
+        background: rgba(22, 22, 36, 0.75); 
         border-radius: 12px; 
         padding: 1.5rem;
         border: 1px solid #222336; 
-        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        backdrop-filter: blur(8px);
     }
     
-    /* Streamlit Selectbox Customization in Sidebar */
+    /* Customization for Selectbox background */
     div[data-testid="stSelectbox"] div[data-baseweb="select"] {
         background-color: #161624 !important;
         border: 1px solid #222336 !important;
@@ -192,9 +188,9 @@ with st.sidebar:
 # --- HOME PAGE ---
 if page == "🏠 Home":
     st.markdown("""
-        <div style="background: linear-gradient(135deg, #1E1B4B 0%, #0F172A 100%); 
+        <div style="background: linear-gradient(135deg, rgba(30, 27, 75, 0.6) 0%, rgba(15, 23, 42, 0.7) 100%); 
                     padding: 2.5rem; border-radius: 16px; border: 1px solid #312E81; 
-                    margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
+                    margin-bottom: 2rem; backdrop-filter: blur(10px);">
             <h1 style="color: #F8FAFC; margin: 0; font-size: 2.8rem; font-weight: 800; letter-spacing: -0.025em;">
                 MathLab <span style="background: linear-gradient(90deg, #6366F1, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pro</span>
             </h1>
@@ -247,7 +243,7 @@ if page == "🏠 Home":
         row1_col1, row1_col2 = st.columns(2)
         with row1_col1:
             st.markdown("""
-                <div style="background: #161624; padding: 1.5rem; border-radius: 12px; border: 1px solid #222336; height: 180px;">
+                <div style="background: rgba(22, 22, 36, 0.7); padding: 1.5rem; border-radius: 12px; border: 1px solid #222336; height: 180px; backdrop-filter: blur(5px);">
                     <h4 style="margin: 0 0 0.5rem 0; color: #818CF8;">📈 Advanced Vector Grapher</h4>
                     <p style="margin: 0; color: #94A3B8; font-size: 0.9rem; line-height: 1.5;">
                         Deploy high-resolution Plotly canvases featuring custom range mapping, functional evaluation, and real-time step monitoring.
@@ -256,7 +252,7 @@ if page == "🏠 Home":
             """, unsafe_allow_html=True)
         with row1_col2:
             st.markdown("""
-                <div style="background: #161624; padding: 1.5rem; border-radius: 12px; border: 1px solid #222336; height: 180px;">
+                <div style="background: rgba(22, 22, 36, 0.7); padding: 1.5rem; border-radius: 12px; border: 1px solid #222336; height: 180px; backdrop-filter: blur(5px);">
                     <h4 style="margin: 0 0 0.5rem 0; color: #34D399;">📝 Analytical Step Solver</h4>
                     <p style="margin: 0; color: #94A3B8; font-size: 0.9rem; line-height: 1.5;">
                         Process symbolic computations and isolate non-linear variables. Powered by direct algorithmic factorization.
@@ -269,12 +265,12 @@ if page == "🏠 Home":
         if st.session_state.history:
             st.dataframe(pd.DataFrame(st.session_state.history).tail(3), use_container_width=True)
         else:
-            st.markdown('<div style="background: #11111B; border: 1px dashed #313244; padding: 1rem; border-radius: 8px; text-align: center; color: #6C7086;">No operational kernels compiled within current memory trace.</div>', unsafe_allow_html=True)
+            st.markdown('<div style="background: rgba(17, 17, 27, 0.8); border: 1px dashed #313244; padding: 1rem; border-radius: 8px; text-align: center; color: #6C7086;">No operational kernels compiled within current memory trace.</div>', unsafe_allow_html=True)
 
     with right_panel:
         st.markdown("<h3 style='color: #E2E8F0; margin-bottom: 1rem;'>💡 System Insight</h3>", unsafe_allow_html=True)
         st.markdown("""
-            <div style="background: #1E1E2E; padding: 1.5rem; border-radius: 12px; border: 1px solid #313244;">
+            <div style="background: rgba(30, 30, 46, 0.8); padding: 1.5rem; border-radius: 12px; border: 1px solid #313244; backdrop-filter: blur(5px);">
                 <h5 style="margin: 0 0 0.5rem 0; color: #F5E0DC;">Mathematical Quote of the Day</h5>
                 <p style="font-style: italic; color: #A6ADC8; font-size: 0.95rem; line-height: 1.5; margin-bottom: 1rem;">
                     "The study of mathematics, like the Nile, begins in minuteness but ends in magnificence."
@@ -282,104 +278,73 @@ if page == "🏠 Home":
                 <span style="color: #F38BA8; font-size: 0.85rem; font-weight: 600;">— Charles Caleb Colton</span>
             </div>
         """, unsafe_allow_html=True)
-        st.markdown("<br>", unsafe_allow_html=True)
-        with st.expander("🛠️ Environment Architecture Specs", expanded=True):
-            st.markdown("""
-                - **Primary Solver Core:** SymPy Symbolic Matrix
-                - **Float Execution Layer:** NumPy Vector Arrays 
-                - **Render Host Layout:** Wide Screen Canvas Viewport
-                - **Session Security Layer:** Sandboxed Tokenization
-            """)
 
-# --- SMART CALCULATOR ---
+# --- SMART CALCULATOR (KEYBOARD OPTIMIZED ARITHMETIC ROW) ---
 elif page == "🧮 Smart Calculator":
     st.title("🧮 Smart Calculator Workstation")
     
-    calc_mode = st.tabs(["Interactive Button Pad", "Expression Evaluator", "History Logs"])
+    calc_mode = st.tabs(["Keyboard Input Interface", "History Logs"])
     
     with calc_mode[0]:
-        if 'calc_input' not in st.session_state:
-            st.session_state.calc_input = ""
-            
-        st.markdown(f"""
-            <div style="background-color: #1E1E2E; padding: 1.5rem; border-radius: 8px; 
-                        border: 2px solid #313244; font-size: 2rem; text-align: right; 
-                        color: #A6ADC8; font-family: monospace; min-height: 4rem; margin-bottom: 1rem; white-space: nowrap; overflow: hidden;">
-                {st.session_state.calc_input if st.session_state.calc_input else "0"}
-            </div>
-        """, unsafe_allow_html=True)
+        # Clean Keyboard Input Terminal Box
+        text_input_val = st.text_input(
+            "Type mathematical formula or digits via your keyboard:", 
+            value=st.session_state.calc_input,
+            key="calc_keyboard_field"
+        )
+        # Update input state instantly
+        st.session_state.calc_input = text_input_val
         
-        # Grid Configuration mapping
-        buttons = [
-            ['7', '8', '9', '/', 'C'],
-            ['4', '5', '6', '*', 'DEL'],
-            ['1', '2', '3', '-', 'sin('],
-            ['0', '.', '=', '+', 'cos('],
-            ['π', '(', ')', 'x²', 'tan('],
-            ['√', 'x³', 'log(', 'exp(', ',']
-        ]
+        st.markdown("<br>", unsafe_allow_html=True)
         
-        for row in buttons:
-            cols = st.columns(5)
-            for idx, button_text in enumerate(row):
-                with cols[idx]:
-                    if st.button(button_text, key=f"btn_{button_text}", use_container_width=True):
-                        if button_text == 'C':
-                            st.session_state.calc_input = ""
-                            st.rerun()
-                        elif button_text == 'DEL':
-                            st.session_state.calc_input = st.session_state.calc_input[:-1]
-                            st.rerun()
-                        elif button_text == '=':
-                            try:
-                                internal_expr = st.session_state.calc_input
-                                internal_expr = internal_expr.replace('π', 'pi')
-                                internal_expr = internal_expr.replace('x²', '**2')
-                                internal_expr = internal_expr.replace('x³', '**3')
-                                internal_expr = internal_expr.replace('√(', 'sqrt(')
-                                
-                                # Enforce base-10 log calculations safely
-                                if 'log(' in internal_expr:
-                                    parsed_expr = sp.sympify(internal_expr, local_dict={'log': lambda x: sp.log(x, 10)})
-                                else:
-                                    parsed_expr = sp.sympify(internal_expr)
-                                    
-                                numeric_res = float(parsed_expr.evalf())
-                                
-                                st.session_state.history.append({
-                                    "timestamp": datetime.now().strftime("%H:%M:%S"), 
-                                    "expr": st.session_state.calc_input, 
-                                    "res": f"{numeric_res:.4f}"
-                                })
-                                st.session_state.calc_input = f"{numeric_res:.4f}"
-                                st.rerun()
-                            except Exception:
-                                st.error("Syntax Error")
-                        elif button_text == 'x²':
-                            st.session_state.calc_input += "**2"
-                            st.rerun()
-                        elif button_text == 'x³':
-                            st.session_state.calc_input += "**3"
-                            st.rerun()
-                        elif button_text == '√':
-                            st.session_state.calc_input += "sqrt("
-                            st.rerun()
-                        else:
-                            st.session_state.calc_input += button_text
-                            st.rerun()
+        # Horizontal Row of Arithmetic Quick-Actions (Circular Matrix Grid)
+        col_plus, col_minus, col_mult, col_div, col_del, col_c = st.columns(6)
+        
+        with col_plus:
+            if st.button("+", key="btn_plus"):
+                st.session_state.calc_input += "+"
+                st.rerun()
+        with col_minus:
+            if st.button("-", key="btn_minus"):
+                st.session_state.calc_input += "-"
+                st.rerun()
+        with col_mult:
+            if st.button("×", key="btn_mult"):
+                st.session_state.calc_input += "*"
+                st.rerun()
+        with col_div:
+            if st.button("÷", key="btn_div"):
+                st.session_state.calc_input += "/"
+                st.rerun()
+        with col_del:
+            if st.button("⌫", key="btn_del"):
+                st.session_state.calc_input = st.session_state.calc_input[:-1]
+                st.rerun()
+        with col_c:
+            if st.button("C", key="btn_clear"):
+                st.session_state.calc_input = ""
+                st.rerun()
+                
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        # Explicit Submit Action
+        if st.button("Calculate Expression (=)", use_container_width=True):
+            if st.session_state.calc_input:
+                try:
+                    parsed_expr = sp.sympify(st.session_state.calc_input)
+                    numeric_res = float(parsed_expr.evalf())
+                    
+                    st.session_state.history.append({
+                        "timestamp": datetime.now().strftime("%H:%M:%S"), 
+                        "expr": st.session_state.calc_input, 
+                        "res": f"{numeric_res:.4f}"
+                    })
+                    st.session_state.calc_input = f"{numeric_res:.4f}"
+                    st.rerun()
+                except Exception:
+                    st.error("Syntax Validation Failure. Please check syntax elements.")
                             
     with calc_mode[1]:
-        st.markdown("#### Direct Python Syntax Terminal")
-        raw_code = st.text_input("Raw Evaluation Input", "2**10 + 500")
-        if raw_code:
-            try:
-                allowed_names = {k: v for k, v in np.__dict__.items() if not k.startswith("__")}
-                res = eval(raw_code, {"__builtins__": None}, allowed_names)
-                st.info(f"Output: {res}")
-            except Exception as e:
-                st.error(f"Syntax Error: {e}")
-                
-    with calc_mode[2]:
         if st.session_state.history:
             df_hist = pd.DataFrame(st.session_state.history)
             st.dataframe(df_hist, use_container_width=True)
