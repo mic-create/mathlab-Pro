@@ -81,6 +81,16 @@ st.markdown("""
         backdrop-filter: blur(8px);
     }
     
+    /* Dictionary Entry Card Design */
+    .dict-card {
+        background: rgba(26, 26, 46, 0.5);
+        border: 1px solid rgba(99, 102, 241, 0.15);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        backdrop-filter: blur(4px);
+    }
+    
     /* Control Form Elements and Tables Typography */
     div[data-testid="stSelectbox"] div[data-baseweb="select"] {
         background-color: #141423 !important;
@@ -104,7 +114,7 @@ def toggle_favorite(item: str):
         st.session_state.favorites.add(item)
 
 # ==========================================
-# 2. DICTIONARY & FORMULA DATA ASSETS
+# 2. DATA ASSETS & EXTENDED FORMULA DICTIONARY
 # ==========================================
 FORMULA_DB = {
     "Algebra": {
@@ -125,12 +135,56 @@ FORMULA_DB = {
     }
 }
 
+# Rebuilt and Comprehensive Mathematics Dictionary featuring structured definitions and explicit LaTeX equations
 DICT_DB = {
-    "Algorithm": "A step-by-step procedure for solving a problem or accomplishing an end.",
-    "Derivative": "The rate of change of a function with respect to a variable.",
-    "Eigenvalue": "A scalar associated with a given linear transformation of a vector space.",
-    "Matrix": "A rectangular array of quantities or expressions in rows and columns.",
-    "Vector": "A quantity having direction as well as magnitude, especially as determining the position of one point in space relative to another."
+    "Arithmetic Progression (AP)": {
+        "def": "A sequence of numbers in which the difference between consecutive terms is constant.",
+        "formula": "$$a_n = a_1 + (n - 1)d$$"
+    },
+    "Bayes' Theorem": {
+        "def": "A mathematical formula used to determine the conditional probability of an event based on prior knowledge of conditions related to the event.",
+        "formula": "$$P(A|B) = \\frac{P(B|A) \\cdot P(A)}{P(B)}$$"
+    },
+    "Binomial Coefficient": {
+        "def": "The number of ways to choose a subset of k elements from a fixed set of n elements.",
+        "formula": "$$\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$$"
+    },
+    "Derivative (First Principles)": {
+        "def": "The rate of change of a function with respect to a variable, derived as the limiting value of a difference quotient.",
+        "formula": "$$f'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}$$"
+    },
+    "Euler's Identity": {
+        "def": "A remarkable equation in mathematical analysis considered an exemplar of mathematical beauty, linking five fundamental mathematical constants.",
+        "formula": "$$e^{i\\pi} + 1 = 0$$"
+    },
+    "Fourier Series Expansion": {
+        "def": "An expansion of a periodic function into a sum of sines and cosines.",
+        "formula": "$$f(x) = \\frac{a_0}{2} + \\sum_{n=1}^{\\infty} \\left[ a_n \\cos(nx) + b_n \\sin(nx) \\right]$$"
+    },
+    "Geometric Progression (GP) Sum": {
+        "def": "The sum of a sequence where each term after the first is found by multiplying the previous one by a fixed, non-zero number (common ratio).",
+        "formula": "$$S_n = \\frac{a(1 - r^n)}{1 - r} \\quad (r \\neq 1)$$"
+    },
+    "Laplace Transform": {
+        "def": "An integral transform that converts a function of a real variable (often time) to a function of a complex variable (complex frequency).",
+        "formula": "$$\\mathcal{L}\\{f(t)\\} = \\int_{0}^{\\infty} e^{-st} f(t) \\, dt$$"
+    },
+    "Matrix Determinant (2x2)": {
+        "def": "A scalar value computed from the elements of a square matrix that encodes specific geometric properties of the linear transformation.",
+        "formula": "$$\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = ad - bc$$"
+    },
+    "Normal Distribution PDF": {
+        "def": "The continuous probability distribution defined by its bell-shaped curve symmetry centered around the mean parameter.",
+        "formula": "$$f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{1}{2}\\left(\\frac{x-\\mu}{\\sigma}\\right)^2}$$"
+    },
+    "Pythagorean Trigonometric Identity": {
+        "def": "The fundamental relation expressing the Pythagorean theorem in terms of trigonometric functions.",
+        "formula": "$$\\sin^2(\\theta) + \\cos^2(\\theta) = 1$$"
+    },
+    "Taylor Series expansion": {
+        "def": "A representation of a function as an infinite sum of terms calculated from the values of its derivatives at a single point.",
+        "formula": "$$f(x) = \\sum_{n=0}^{\\infty} \\frac{f^{(n)}(a)}{n!} (x-a)^n$$"
+    }
 }
 
 # ==========================================
@@ -155,14 +209,14 @@ with st.sidebar:
     st.markdown("<p style='color: #64748B; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom: 0.3rem;'>Navigation Matrix</p>", unsafe_allow_html=True)
     page = st.selectbox(
         "Workspace Viewport selector",
-        ["🏠 Home Dashboard", "📐 Trig Table Generator", "⚡ Differentiation Solver", "integral_view", "Advanced Geometry", "📚 Formula Library", "📖 Dictionary", 
+        ["🏠 Home Dashboard", "📖 Expanded Dictionary", "📐 Trig Table Generator", "⚡ Differentiation Solver", "integral_view", "Advanced Geometry", "📚 Formula Library", 
          "📈 Graphing Tool", "📊 Statistics Calc", "🔢 Matrix Calc", "🔄 Unit Converter", "🎯 Practice Zone"],
         label_visibility="collapsed"
     )
     
     st.markdown("---")
     
-    # NEW SIDEBAR FEATURE 1: System Hardware/Kernel Status Diagnostics Controller Panel
+    # System Hardware/Kernel Status Diagnostics Controller Panel
     with st.expander("🛠️ System Diagnostics", expanded=False):
         st.caption("Computational Kernel Status")
         if st.checkbox("Toggle Engine Override Mode", value=False):
@@ -173,7 +227,7 @@ with st.sidebar:
         st.write(f"Active Port State: `CPU-THREAD-LIVE`")
         st.write(f"Workspace Mode: `{st.session_state.system_kernel_status}`")
         
-    # NEW SIDEBAR FEATURE 2: Real-time Session Activity Metrics Tracker
+    # Real-time Session Activity Metrics Tracker
     with st.expander("📊 Runtime Analytics", expanded=False):
         st.metric("Logged Operations", f"{len(st.session_state.history)} entries")
         st.metric("Total Favorites", f"{len(st.session_state.favorites)} bookmarked")
@@ -181,7 +235,7 @@ with st.sidebar:
             st.session_state.history = []
             st.rerun()
 
-    # NEW SIDEBAR FEATURE 3: Elegant Bookmark Registry Viewport
+    # Elegant Bookmark Registry Viewport
     st.markdown("### ⭐ Active Bookmarks")
     if st.session_state.favorites:
         for fav in st.session_state.favorites:
@@ -230,14 +284,51 @@ if page == "🏠 Home Dashboard":
     with col3:
         st.markdown("""
             <div class='metric-card'>
-                <h4 style='color: #3B82F6; margin-top:0;'>📊 Trigonometric Indices</h4>
+                <h4 style='color: #3B82F6; margin-top:0;'>📖 Formula Dictionary</h4>
                 <p style='color: #94A3B8; font-size:0.9rem; line-height:1.5; margin-bottom:0;'>
-                    Generate completely customizable modular grid mapping structures across customized step boundaries for high-precision validation.
+                    Browse mathematical theorems paired directly with interactive equations and definitions.
                 </p>
             </div>
         """, unsafe_allow_html=True)
 
-# --- NEW WORKSPACE: TRIGONOMETRIC TABLE GENERATOR ---
+# --- EXPANDED DICTIONARY COMPONENT ---
+elif page == "📖 Expanded Dictionary":
+    st.title("📖 Comprehensive Mathematical Formula Dictionary")
+    st.write("Browse structured analytical concepts paired with mathematical identities and formulas.")
+    
+    search_d = st.text_input("🔍 Search term, keyword, or system theorem formula component:", "")
+    
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    found_any = False
+    for term, data in DICT_DB.items():
+        if search_d.lower() in term.lower() or search_d.lower() in data["def"].lower():
+            found_any = True
+            
+            # Rendering stylized wrapper card matching the main app framework
+            st.markdown(f"""
+                <div class="dict-card">
+                    <h3 style="color: #818CF8; margin: 0 0 0.5rem 0; font-size: 1.4rem;">{term}</h3>
+                    <p style="color: #E2E8F0; font-size: 1rem; line-height: 1.6; margin-bottom: 1rem;">{data['def']}</p>
+                </div>
+            """, unsafe_allow_html=True)
+            
+            # Separate crisp math blocks for execution safety
+            st.markdown("**Governing Formula Identity:**")
+            st.markdown(data["formula"])
+            
+            # Bookmark integration action row
+            fav_label = "⭐ Bookmarked" if term in st.session_state.favorites else "☆ Add to Bookmark Stack"
+            if st.button(fav_label, key=f"dict_fav_{term}"):
+                toggle_favorite(term)
+                st.rerun()
+                
+            st.markdown("<div style='margin-bottom: 2rem;'></div>", unsafe_allow_html=True)
+            
+    if not found_any:
+        st.info("No matching mathematical terminology located in the local index.")
+
+# --- TRIGONOMETRIC TABLE GENERATOR ---
 elif page == "📐 Trig Table Generator":
     st.title("📐 Dynamic Trigonometric Reference Array Matrix")
     st.write("Generate customized, high-precision trigonometric data grids across flexible interval configurations.")
@@ -250,7 +341,6 @@ elif page == "📐 Trig Table Generator":
     with col_t3:
         precision_val = st.slider("Decimal Fraction Precision Cutoff", 2, 10, 5)
         
-    # Boundary Arrays Calculation Setup
     if angle_mode == "Degrees":
         angles = np.arange(0, 360 + step_val, step_val)
         rad_angles = np.radians(angles)
@@ -258,7 +348,6 @@ elif page == "📐 Trig Table Generator":
         angles = np.arange(0, (2 * np.pi) + step_val, step_val)
         rad_angles = angles
         
-    # Generate Compute Map Frame
     trig_data = {
         f"Angle ({angle_mode})": np.round(angles, precision_val),
         "Sine (sin)": np.round(np.sin(rad_angles), precision_val),
@@ -270,7 +359,7 @@ elif page == "📐 Trig Table Generator":
     st.dataframe(df_trig, use_container_width=True, height=450)
     st.download_button("Export Compiled Trigonometric Matrix Data Block", df_trig.to_csv(index=False), "trig_matrix_export.csv")
 
-# --- NEW WORKSPACE: DIFFERENTIATION SOLVER ---
+# --- DIFFERENTIATION SOLVER ---
 elif page == "⚡ Differentiation Solver":
     st.title("⚡ Symbolic Differentiation Engine")
     st.write("Compute exact derivatives, higher-order multi-derivatives, and evaluate slope gradients at custom coordinates.")
@@ -290,7 +379,6 @@ elif page == "⚡ Differentiation Solver":
             st.write(f"Resulting Derivative State Order ({order_val}):")
             st.latex(f"\\frac{{d^{order_val}}}{{dx^{order_val}}} f(x) = {sp.latex(derived_sol)}")
             
-            # Interactive point evaluation module addition
             st.markdown("---")
             st.subheader("Point Coordinate Gradient Evaluator")
             eval_pt = st.number_input("Evaluate Target Axis Point location ($x_0$):", value=2.0)
@@ -299,7 +387,7 @@ elif page == "⚡ Differentiation Solver":
         except Exception as e:
             st.error(f"Symbolic validation compilation processing error: {e}")
 
-# --- NEW WORKSPACE: INTEGRATION SOLVER ---
+# --- INTEGRATION SOLVER ---
 elif page == "integral_view":
     st.title("🔗 Analytical Integration Modeling Studio")
     st.write("Resolve exact symbolic primitives or map computational bounding regions via definite integral boundaries.")
@@ -331,7 +419,7 @@ elif page == "integral_view":
     except Exception as e:
         st.error(f"Integration Engine parse stack overflow event: {e}")
 
-# --- NEW WORKSPACE: ADVANCED GEOMETRY ---
+# --- ADVANCED GEOMETRY ---
 elif page == "Advanced Geometry":
     st.title("💎 Advanced 3D Spatial Solid Geometry Core")
     st.write("Compute surface areas, volumes, and directional space constraints for multidimensional geometric structures.")
@@ -379,17 +467,6 @@ elif page == "📚 Formula Library":
                         if st.button(fav_label, key=f"f_{name}"):
                             toggle_favorite(name)
                             st.rerun()
-
-# --- DICTIONARY ---
-elif page == "📖 Dictionary":
-    st.title("📖 Mathematical Terminologies Dictionary")
-    search_d = st.text_input("Search Dictionary Catalog")
-    
-    for term, definition in DICT_DB.items():
-        if search_d.lower() in term.lower() or search_d.lower() in definition.lower():
-            st.markdown(f"### {term}")
-            st.write(definition)
-            st.markdown("---")
 
 # --- GRAPHING TOOL ---
 elif page == "📈 Graphing Tool":
