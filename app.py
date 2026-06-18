@@ -27,11 +27,28 @@ if 'quiz_score' not in st.session_state:
 if 'quiz_current' not in st.session_state:
     st.session_state.quiz_current = None
 
-# Custom CSS for Premium Sidebar, Dashboard, & Anti-Stack Mobile Grid
+# Custom CSS for Background Image, Circular Buttons, & Responsive Mobile Matrix
 st.markdown("""
     <style>
-    /* Global Background Adjustments */
-    .main .block-container { padding-top: 2rem; }
+    /* Global Background Adjustments & Custom Logo Watermark Background */
+    .main .block-container { 
+        padding-top: 2rem; 
+        position: relative;
+        z-index: 1;
+    }
+    
+    .main::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-image: url("app/static/My Loho.png"); /* Serves the local file from streamlit static path */
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 40%; /* Adjust size of background watermark */
+        opacity: 0.04;        /* Very light opacity to keep text perfectly legible */
+        z-index: -1;
+        pointer-events: none;
+    }
     
     /* Advanced Sidebar Styling */
     [data-testid="stSidebar"] {
@@ -45,28 +62,33 @@ st.markdown("""
         color: #E2E8F0;
     }
     
-    /* Polish Standard Buttons & Fix Mobile Click Latency */
-        div.stButton > button:first-child {
+    /* Transform Buttons into Sleek Circular Layouts */
+    div.stButton > button:first-child {
         background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%); 
         color: white; 
-        border-radius: 6px; 
+        border-radius: 50% !important;     /* Perfect Circle */
         border: none;
-        padding: 0.3rem 0.6rem !important; /* Reduced padding for smaller size */
-        font-size: 0.9rem !important;      /* Slightly smaller text */
-        min-height: 2.2rem !important;     /* Compact vertical footprint */
-        font-weight: 500;
-        box-shadow: 0 2px 6px rgba(79, 70, 229, 0.15);
-        transition: all 0.25s ease;
+        padding: 0 !important;             /* Clear standard padding */
+        width: 2.8rem !important;          /* Fixed identical width and height */
+        height: 2.8rem !important;         
+        font-size: 0.95rem !important;     
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto !important;         /* Center keys inside layout */
+        box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+        transition: all 0.2s ease;
         touch-action: manipulation !important;
     }
+    
     div.stButton > button:first-child:hover { 
         background: linear-gradient(135deg, #4338CA 0%, #2563EB 100%); 
-        transform: translateY(-1px);
-        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+        transform: scale(1.08);             /* Pop effect */
+        box-shadow: 0 6px 14px rgba(79, 70, 229, 0.3);
     }
     
     /* --- CRITICAL PHONE HORIZONTAL ROW INLINE FIX --- */
-    /* Force the primary layout containers to maintain horizontal layout on mobile */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
@@ -74,10 +96,9 @@ st.markdown("""
         width: 100% !important;
     }
     
-    /* Force column structures to hold a fixed tight width grid allocation */
     [data-testid="stHorizontalBlock"] > [data-testid="column"] {
-        width: calc(20% - 0.2rem) !important;
-        flex: 1 1 calc(20% - 0.2rem) !important;
+        width: calc(20% - 0.3rem) !important;
+        flex: 1 1 calc(20% - 0.3rem) !important;
         min-width: 10px !important;
     }
     
@@ -88,14 +109,6 @@ st.markdown("""
         padding: 1.5rem;
         border: 1px solid #222336; 
         box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-    }
-    .math-quote {
-        font-style: italic; 
-        color: #94A3B8; 
-        border-left: 3px solid #6366F1;
-        padding-left: 1.2rem; 
-        margin: 1.5rem 0;
-        font-size: 1.1rem;
     }
     
     /* Streamlit Selectbox Customization in Sidebar */
@@ -148,11 +161,9 @@ DICT_DB = {
 # 3. SIDEBAR NAVIGATION & LOGO
 # ==========================================
 with st.sidebar:
-    # Custom logo string path configuration
     try:
-        st.image("My Logo.png", use_container_width=True)
+        st.image("My Loho.png", use_container_width=True)
     except Exception:
-        # Fallback if image path can't be resolved locally
         st.markdown("<h2 style='color: #6366F1; margin-bottom: 0;'>Overah Core</h2>", unsafe_allow_html=True)
         
     st.title("🧪 MathLab Pro")
