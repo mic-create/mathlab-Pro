@@ -27,7 +27,7 @@ if 'quiz_score' not in st.session_state:
 if 'quiz_current' not in st.session_state:
     st.session_state.quiz_current = None
 
-# Custom CSS for Premium Sidebar & Dashboard Aesthetic
+# Custom CSS for Premium Sidebar, Dashboard, & Mobile Grid Layout
 st.markdown("""
     <style>
     /* Global Background Adjustments */
@@ -45,7 +45,7 @@ st.markdown("""
         color: #E2E8F0;
     }
     
-    /* Polish Standard Buttons */
+    /* Polish Standard Buttons & Fix Mobile Click Latency */
     div.stButton > button:first-child {
         background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%); 
         color: white; 
@@ -55,11 +55,19 @@ st.markdown("""
         font-weight: 500;
         box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
         transition: all 0.25s ease;
+        touch-action: manipulation !important;
     }
     div.stButton > button:first-child:hover { 
         background: linear-gradient(135deg, #4338CA 0%, #2563EB 100%); 
         transform: translateY(-1px);
         box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+    }
+    
+    /* Force Calculator Buttons into a Grid Matrix on Mobile Screens */
+    [data-testid="column"] {
+        width: calc(20% - 0.5rem) !important;
+        flex: 1 1 calc(20% - 0.5rem) !important;
+        min-width: calc(20% - 0.5rem) !important;
     }
     
     /* Modern Dashboard Cards */
@@ -129,11 +137,11 @@ DICT_DB = {
 # 3. SIDEBAR NAVIGATION & LOGO
 # ==========================================
 with st.sidebar:
-    # Overah Core Branding Element
+    # Dedicated Logo Channel using your specified local file path
     try:
         st.image("My Logo.png", use_container_width=True)
     except Exception:
-        # Fallback if your logo file is missing
+        # Graceful text fallback if file missing
         st.markdown("<h2 style='color: #6366F1; margin-bottom: 0;'>Overah Core</h2>", unsafe_allow_html=True)
         
     st.title("🧪 MathLab Pro")
@@ -308,7 +316,7 @@ elif page == "🧮 Smart Calculator":
                                 internal_expr = internal_expr.replace('x³', '**3')
                                 internal_expr = internal_expr.replace('√(', 'sqrt(')
                                 
-                                # Enforce base-10 log calculations safely
+                                # Enforce standard base-10 log calculations safely
                                 if 'log(' in internal_expr:
                                     parsed_expr = sp.sympify(internal_expr, local_dict={'log': lambda x: sp.log(x, 10)})
                                 else:
