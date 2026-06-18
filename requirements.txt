@@ -1,0 +1,7 @@
+#requirements
+streamlit 
+plotly 
+numpy 
+scipy 
+pandas 
+sympy
