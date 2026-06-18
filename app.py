@@ -148,7 +148,7 @@ DICT_DB = {
 with st.sidebar:
     # Custom logo string path configuration
     try:
-        st.image("My Loho.png", use_container_width=True)
+        st.image("My Logo.png", use_container_width=True)
     except Exception:
         # Fallback if image path can't be resolved locally
         st.markdown("<h2 style='color: #6366F1; margin-bottom: 0;'>Overah Core</h2>", unsafe_allow_html=True)
