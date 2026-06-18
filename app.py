@@ -26,92 +26,90 @@ if 'quiz_score' not in st.session_state:
     st.session_state.quiz_score = {'correct': 0, 'total': 0}
 if 'quiz_current' not in st.session_state:
     st.session_state.quiz_current = None
+if 'calc_input' not in st.session_state:
+    st.session_state.calc_input = ""
 
-# Custom CSS for Background Image, Circular Buttons, & Responsive Mobile Matrix
+# Custom CSS for Background, JAMB Layout Matching & High Responsiveness
 st.markdown("""
     <style>
-    /* Global Background Adjustments & Custom Logo Watermark Background */
-    .main .block-container { 
-        padding-top: 2rem; 
-        position: relative;
-        z-index: 1;
+    /* Global App Wallpaper Background Injection */
+    .stApp {
+        background: linear-gradient(rgba(15, 15, 22, 0.88), rgba(15, 15, 22, 0.94)), 
+                    url("app/static/My Logo.png") no-repeat center center fixed;
+        background-size: cover !important;
     }
     
-    .main::before {
-        content: "";
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background-image: url("app/static/My Loho.png"); /* Serves the local file from streamlit static path */
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 40%; /* Adjust size of background watermark */
-        opacity: 0.04;        /* Very light opacity to keep text perfectly legible */
-        z-index: -1;
-        pointer-events: none;
-    }
+    .main .block-container { padding-top: 2rem; }
     
     /* Advanced Sidebar Styling */
     [data-testid="stSidebar"] {
-        background-color: #0F0F16 !important;
+        background-color: rgba(15, 15, 22, 0.95) !important;
         border-right: 1px solid #222336;
     }
     
-    /* Clean Up Native Sidebar Text Spacing */
-    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] span {
-        font-family: 'Inter', -apple-system, sans-serif;
-        color: #E2E8F0;
-    }
-    
-    /* Transform Buttons into Sleek Circular Layouts */
-    div.stButton > button:first-child {
-        background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%); 
-        color: white; 
-        border-radius: 50% !important;     /* Perfect Circle */
-        border: none;
-        padding: 0 !important;             /* Clear standard padding */
-        width: 2.8rem !important;          /* Fixed identical width and height */
-        height: 2.8rem !important;         
-        font-size: 0.95rem !important;     
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto !important;         /* Center keys inside layout */
-        box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
-        transition: all 0.2s ease;
+    /* Main JAMB Square/Rounded Button Styling */
+    div.stButton > button {
+        background: #0000FF !important; /* Pure Blue theme from template image */
+        color: white !important; 
+        border-radius: 14px !important; /* Soft corners exactly like template */
+        border: 2px solid #0000CC !important;
+        padding: 0.8rem 0rem !important;             
+        font-size: 1.2rem !important;     
+        font-weight: bold !important;
+        width: 100% !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 255, 0.2);
+        transition: all 0.15s ease;
         touch-action: manipulation !important;
     }
     
-    div.stButton > button:first-child:hover { 
-        background: linear-gradient(135deg, #4338CA 0%, #2563EB 100%); 
-        transform: scale(1.08);             /* Pop effect */
-        box-shadow: 0 6px 14px rgba(79, 70, 229, 0.3);
+    div.stButton > button:hover { 
+        background: #0000CC !important;
+        transform: scale(1.02);
     }
     
-    /* --- CRITICAL PHONE HORIZONTAL ROW INLINE FIX --- */
+    /* Special Full-Width Red Clear All Layout Button styling */
+    div.clear-box div.stButton > button {
+        background: #FF0000 !important; /* Pure Red clear bar */
+        border: 2px solid #CC0000 !important;
+        font-size: 1.1rem !important;
+        border-radius: 10px !important;
+        box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2);
+    }
+    div.clear-box div.stButton > button:hover {
+        background: #CC0000 !important;
+    }
+    
+    /* Lock elements into a strict 4-Column Grid on Mobile devices */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         width: 100% !important;
+        gap: 0.4rem !important;
     }
     
     [data-testid="stHorizontalBlock"] > [data-testid="column"] {
-        width: calc(20% - 0.3rem) !important;
-        flex: 1 1 calc(20% - 0.3rem) !important;
+        width: calc(25% - 0.3rem) !important;
+        flex: 1 1 calc(25% - 0.3rem) !important;
         min-width: 10px !important;
     }
     
-    /* Modern Dashboard Cards */
-    .metric-card {
-        background: #161624; 
-        border-radius: 12px; 
+    /* Blueprint display layout mirroring your reference graphic */
+    .jamb-display {
+        background-color: #0000FF !important;
+        border: 2px solid #000000;
+        border-radius: 6px;
+        color: white !important;
+        font-family: 'Courier New', monospace;
+        font-size: 2.2rem;
+        font-weight: bold;
+        text-align: right;
         padding: 1.5rem;
-        border: 1px solid #222336; 
-        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        margin-bottom: 1rem;
+        min-height: 5.5rem;
     }
     
-    /* Streamlit Selectbox Customization in Sidebar */
+    /* Global Selectbox background */
     div[data-testid="stSelectbox"] div[data-baseweb="select"] {
         background-color: #161624 !important;
         border: 1px solid #222336 !important;
@@ -120,7 +118,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Helper function for notifications/bookmarks
+# Helper function for bookmarks
 def toggle_favorite(item: str):
     if item in st.session_state.favorites:
         st.session_state.favorites.remove(item)
@@ -192,9 +190,9 @@ with st.sidebar:
 # --- HOME PAGE ---
 if page == "🏠 Home":
     st.markdown("""
-        <div style="background: linear-gradient(135deg, #1E1B4B 0%, #0F172A 100%); 
+        <div style="background: linear-gradient(135deg, rgba(30, 27, 75, 0.6) 0%, rgba(15, 23, 42, 0.7) 100%); 
                     padding: 2.5rem; border-radius: 16px; border: 1px solid #312E81; 
-                    margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
+                    margin-bottom: 2rem; backdrop-filter: blur(10px);">
             <h1 style="color: #F8FAFC; margin: 0; font-size: 2.8rem; font-weight: 800; letter-spacing: -0.025em;">
                 MathLab <span style="background: linear-gradient(90deg, #6366F1, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pro</span>
             </h1>
@@ -203,189 +201,129 @@ if page == "🏠 Home":
             </p>
         </div>
     """, unsafe_allow_html=True)
-    
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.markdown(f"""
-            <div class='metric-card'>
-                <p style='color: #64748B; margin:0; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;'>Log Volatility</p>
-                <h2 style='color: #F1F5F9; margin:0.3rem 0; font-size: 1.8rem;'>{len(st.session_state.history)} ops</h2>
-                <span style='color: #10B981; font-size: 0.8rem; font-weight: 600;'>↑ System Active</span>
-            </div>
-        """, unsafe_allow_html=True)
-    with col2:
-        st.markdown(f"""
-            <div class='metric-card'>
-                <p style='color: #64748B; margin:0; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;'>Stored Matrices</p>
-                <h2 style='color: #F1F5F9; margin:0.3rem 0; font-size: 1.8rem;'>{len(st.session_state.favorites)} index</h2>
-                <span style='color: #6366F1; font-size: 0.8rem; font-weight: 600;'>★ Static Variables</span>
-            </div>
-        """, unsafe_allow_html=True)
-    with col3:
-        quiz_pct = (st.session_state.quiz_score['correct'] / max(st.session_state.quiz_score['total'], 1)) * 100
-        st.markdown(f"""
-            <div class='metric-card'>
-                <p style='color: #64748B; margin:0; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;'>Core Competency</p>
-                <h2 style='color: #F1F5F9; margin:0.3rem 0; font-size: 1.8rem;'>{quiz_pct:.1f}%</h2>
-                <span style='color: #3B82F6; font-size: 0.8rem; font-weight: 600;'>⚡ Engine Rating</span>
-            </div>
-        """, unsafe_allow_html=True)
-    with col4:
-        st.markdown("""
-            <div class='metric-card'>
-                <p style='color: #64748B; margin:0; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;'>Engine Status</p>
-                <h2 style='color: #10B981; margin:0.3rem 0; font-size: 1.8rem;'>Nominal</h2>
-                <span style='color: #10B981; font-size: 0.8rem; font-weight: 600;'>● SymPy Live</span>
-            </div>
-        """, unsafe_allow_html=True)
 
-    st.markdown("<br>", unsafe_allow_html=True)
-    left_panel, right_panel = st.columns([2, 1])
-    
-    with left_panel:
-        st.markdown("<h3 style='color: #E2E8F0; margin-bottom: 1rem;'>🚀 High-Priority Subsystems</h3>", unsafe_allow_html=True)
-        row1_col1, row1_col2 = st.columns(2)
-        with row1_col1:
-            st.markdown("""
-                <div style="background: #161624; padding: 1.5rem; border-radius: 12px; border: 1px solid #222336; height: 180px;">
-                    <h4 style="margin: 0 0 0.5rem 0; color: #818CF8;">📈 Advanced Vector Grapher</h4>
-                    <p style="margin: 0; color: #94A3B8; font-size: 0.9rem; line-height: 1.5;">
-                        Deploy high-resolution Plotly canvases featuring custom range mapping, functional evaluation, and real-time step monitoring.
-                    </p>
-                </div>
-            """, unsafe_allow_html=True)
-        with row1_col2:
-            st.markdown("""
-                <div style="background: #161624; padding: 1.5rem; border-radius: 12px; border: 1px solid #222336; height: 180px;">
-                    <h4 style="margin: 0 0 0.5rem 0; color: #34D399;">📝 Analytical Step Solver</h4>
-                    <p style="margin: 0; color: #94A3B8; font-size: 0.9rem; line-height: 1.5;">
-                        Process symbolic computations and isolate non-linear variables. Powered by direct algorithmic factorization.
-                    </p>
-                </div>
-            """, unsafe_allow_html=True)
-            
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("<h4 style='color: #E2E8F0;'>🕒 Recent Session Kernels</h4>", unsafe_allow_html=True)
-        if st.session_state.history:
-            st.dataframe(pd.DataFrame(st.session_state.history).tail(3), use_container_width=True)
-        else:
-            st.markdown('<div style="background: #11111B; border: 1px dashed #313244; padding: 1rem; border-radius: 8px; text-align: center; color: #6C7086;">No operational kernels compiled within current memory trace.</div>', unsafe_allow_html=True)
-
-    with right_panel:
-        st.markdown("<h3 style='color: #E2E8F0; margin-bottom: 1rem;'>💡 System Insight</h3>", unsafe_allow_html=True)
-        st.markdown("""
-            <div style="background: #1E1E2E; padding: 1.5rem; border-radius: 12px; border: 1px solid #313244;">
-                <h5 style="margin: 0 0 0.5rem 0; color: #F5E0DC;">Mathematical Quote of the Day</h5>
-                <p style="font-style: italic; color: #A6ADC8; font-size: 0.95rem; line-height: 1.5; margin-bottom: 1rem;">
-                    "The study of mathematics, like the Nile, begins in minuteness but ends in magnificence."
-                </p>
-                <span style="color: #F38BA8; font-size: 0.85rem; font-weight: 600;">— Charles Caleb Colton</span>
-            </div>
-        """, unsafe_allow_html=True)
-        st.markdown("<br>", unsafe_allow_html=True)
-        with st.expander("🛠️ Environment Architecture Specs", expanded=True):
-            st.markdown("""
-                - **Primary Solver Core:** SymPy Symbolic Matrix
-                - **Float Execution Layer:** NumPy Vector Arrays 
-                - **Render Host Layout:** Wide Screen Canvas Viewport
-                - **Session Security Layer:** Sandboxed Tokenization
-            """)
-
-# --- SMART CALCULATOR ---
+# --- SMART CALCULATOR (JAMB STYLE MATRIX REPLICA) ---
 elif page == "🧮 Smart Calculator":
-    st.title("🧮 Smart Calculator Workstation")
+    st.title("🧮 JAMB Layout Calculator")
     
-    calc_mode = st.tabs(["Interactive Button Pad", "Expression Evaluator", "History Logs"])
+    calc_mode = st.tabs(["Calculator Matrix Terminal", "Calculations History Log"])
     
     with calc_mode[0]:
-        if 'calc_input' not in st.session_state:
-            st.session_state.calc_input = ""
-            
+        # Blue background screen panel display matching user's reference blueprint image
         st.markdown(f"""
-            <div style="background-color: #1E1E2E; padding: 1.5rem; border-radius: 8px; 
-                        border: 2px solid #313244; font-size: 2rem; text-align: right; 
-                        color: #A6ADC8; font-family: monospace; min-height: 4rem; margin-bottom: 1rem; white-space: nowrap; overflow: hidden;">
+            <div class="jamb-display">
                 {st.session_state.calc_input if st.session_state.calc_input else "0"}
             </div>
         """, unsafe_allow_html=True)
         
-        # Grid Configuration mapping
-        buttons = [
-            ['7', '8', '9', '/', 'C'],
-            ['4', '5', '6', '*', 'DEL'],
-            ['1', '2', '3', '-', 'sin('],
-            ['0', '.', '=', '+', 'cos('],
-            ['π', '(', ')', 'x²', 'tan('],
-            ['√', 'x³', 'log(', 'exp(', ',']
-        ]
+        # Interactive text field fallback allowing clean user keyboard entry processing
+        typed_input = st.text_input("Keyboard Entry Stream Listener:", value=st.session_state.calc_input, label_visibility="collapsed")
+        if typed_input != st.session_state.calc_input:
+            st.session_state.calc_input = typed_input
+            st.rerun()
+            
+        st.markdown("<br>", unsafe_allow_html=True)
         
-        for row in buttons:
-            cols = st.columns(5)
-            for idx, button_text in enumerate(row):
-                with cols[idx]:
-                    if st.button(button_text, key=f"btn_{button_text}", use_container_width=True):
-                        if button_text == 'C':
-                            st.session_state.calc_input = ""
-                            st.rerun()
-                        elif button_text == 'DEL':
-                            st.session_state.calc_input = st.session_state.calc_input[:-1]
-                            st.rerun()
-                        elif button_text == '=':
-                            try:
-                                internal_expr = st.session_state.calc_input
-                                internal_expr = internal_expr.replace('π', 'pi')
-                                internal_expr = internal_expr.replace('x²', '**2')
-                                internal_expr = internal_expr.replace('x³', '**3')
-                                internal_expr = internal_expr.replace('√(', 'sqrt(')
-                                
-                                # Enforce base-10 log calculations safely
-                                if 'log(' in internal_expr:
-                                    parsed_expr = sp.sympify(internal_expr, local_dict={'log': lambda x: sp.log(x, 10)})
-                                else:
-                                    parsed_expr = sp.sympify(internal_expr)
-                                    
-                                numeric_res = float(parsed_expr.evalf())
-                                
-                                st.session_state.history.append({
-                                    "timestamp": datetime.now().strftime("%H:%M:%S"), 
-                                    "expr": st.session_state.calc_input, 
-                                    "res": f"{numeric_res:.4f}"
-                                })
-                                st.session_state.calc_input = f"{numeric_res:.4f}"
-                                st.rerun()
-                            except Exception:
-                                st.error("Syntax Error")
-                        elif button_text == 'x²':
-                            st.session_state.calc_input += "**2"
-                            st.rerun()
-                        elif button_text == 'x³':
-                            st.session_state.calc_input += "**3"
-                            st.rerun()
-                        elif button_text == '√':
-                            st.session_state.calc_input += "sqrt("
-                            st.rerun()
+        # Comprehensive 4-Column layout matrix mirroring configuration
+        # Row 1: Scientific extensions
+        c1, c2, c3, c4 = st.columns(4)
+        with c1:
+            if st.button("sin", key="sin"): st.session_state.calc_input += "sin("; st.rerun()
+        with c2:
+            if st.button("cos", key="cos"): st.session_state.calc_input += "cos("; st.rerun()
+        with c3:
+            if st.button("tan", key="tan"): st.session_state.calc_input += "tan("; st.rerun()
+        with c4:
+            if st.button("√", key="sqrt"): st.session_state.calc_input += "sqrt("; st.rerun()
+
+        # Row 2: Scientific extensions contd.
+        c1, c2, c3, c4 = st.columns(4)
+        with c1:
+            if st.button("log", key="log"): st.session_state.calc_input += "log("; st.rerun()
+        with c2:
+            if st.button("^", key="pow"): st.session_state.calc_input += "**"; st.rerun()
+        with c3:
+            if st.button("(", key="op_par"): st.session_state.calc_input += "("; st.rerun()
+        with c4:
+            if st.button(")", key="cl_par"): st.session_state.calc_input += ")"; st.rerun()
+
+        # Row 3: Image Blueprint row 1
+        c1, c2, c3, c4 = st.columns(4)
+        with c1:
+            if st.button("1", key="num1"): st.session_state.calc_input += "1"; st.rerun()
+        with c2:
+            if st.button("2", key="num2"): st.session_state.calc_input += "2"; st.rerun()
+        with c3:
+            if st.button("3", key="num3"): st.session_state.calc_input += "3"; st.rerun()
+        with c4:
+            if st.button("+", key="op_add"): st.session_state.calc_input += "+"; st.rerun()
+            
+        # Row 4: Image Blueprint row 2
+        c1, c2, c3, c4 = st.columns(4)
+        with c1:
+            if st.button("4", key="num4"): st.session_state.calc_input += "4"; st.rerun()
+        with c2:
+            if st.button("5", key="num5"): st.session_state.calc_input += "5"; st.rerun()
+        with c3:
+            if st.button("6", key="num6"): st.session_state.calc_input += "6"; st.rerun()
+        with c4:
+            if st.button("-", key="op_sub"): st.session_state.calc_input += "-"; st.rerun()
+            
+        # Row 5: Image Blueprint row 3
+        c1, c2, c3, c4 = st.columns(4)
+        with c1:
+            if st.button("7", key="num7"): st.session_state.calc_input += "7"; st.rerun()
+        with c2:
+            if st.button("8", key="num8"): st.session_state.calc_input += "8"; st.rerun()
+        with c3:
+            if st.button("9", key="num9"): st.session_state.calc_input += "9"; st.rerun()
+        with c4:
+            if st.button("*", key="op_mul"): st.session_state.calc_input += "*"; st.rerun()
+            
+        # Row 6: Image Blueprint row 4
+        c1, c2, c3, c4 = st.columns(4)
+        with c1:
+            if st.button("/", key="op_div"): st.session_state.calc_input += "/"; st.rerun()
+        with c2:
+            if st.button("0", key="num0"): st.session_state.calc_input += "0"; st.rerun()
+        with c3:
+            if st.button(".", key="dec_pt"): st.session_state.calc_input += "."; st.rerun()
+        with c4:
+            if st.button("=", key="eval_eq"):
+                if st.session_state.calc_input:
+                    try:
+                        clean_expr = st.session_state.calc_input
+                        if 'log(' in clean_expr:
+                            parsed_val = sp.sympify(clean_expr, local_dict={'log': lambda x: sp.log(x, 10)})
                         else:
-                            st.session_state.calc_input += button_text
-                            st.rerun()
+                            parsed_val = sp.sympify(clean_expr)
+                            
+                        numeric_res = float(parsed_val.evalf())
+                        st.session_state.history.append({
+                            "timestamp": datetime.now().strftime("%H:%M:%S"), 
+                            "expr": st.session_state.calc_input, 
+                            "res": f"{numeric_res:.4f}"
+                        })
+                        st.session_state.calc_input = f"{numeric_res:.4f}"
+                        st.rerun()
+                    except Exception:
+                        st.error("Syntax Error")
+                        
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        # Red Full-Width Clear Bar container exactly matching your image mockup
+        st.markdown('<div class="clear-box">', unsafe_allow_html=True)
+        if st.button("Clear All", key="clear_all_bar", use_container_width=True):
+            st.session_state.calc_input = ""
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
                             
     with calc_mode[1]:
-        st.markdown("#### Direct Python Syntax Terminal")
-        raw_code = st.text_input("Raw Evaluation Input", "2**10 + 500")
-        if raw_code:
-            try:
-                allowed_names = {k: v for k, v in np.__dict__.items() if not k.startswith("__")}
-                res = eval(raw_code, {"__builtins__": None}, allowed_names)
-                st.info(f"Output: {res}")
-            except Exception as e:
-                st.error(f"Syntax Error: {e}")
-                
-    with calc_mode[2]:
         if st.session_state.history:
             df_hist = pd.DataFrame(st.session_state.history)
             st.dataframe(df_hist, use_container_width=True)
-            st.download_button("Export Logs to CSV", df_hist.to_csv(index=False), "mathlab_history.csv")
         else:
-            st.write("No calculations logged yet.")
+            st.write("No execution tracking loops logged within this operational buffer frame.")
 
 # --- FORMULA LIBRARY ---
 elif page == "📚 Formula Library":
