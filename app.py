@@ -46,14 +46,16 @@ st.markdown("""
     }
     
     /* Polish Standard Buttons & Fix Mobile Click Latency */
-    div.stButton > button:first-child {
+        div.stButton > button:first-child {
         background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%); 
         color: white; 
-        border-radius: 8px; 
+        border-radius: 6px; 
         border: none;
-        padding: 0.6rem 1.2rem; 
+        padding: 0.3rem 0.6rem !important; /* Reduced padding for smaller size */
+        font-size: 0.9rem !important;      /* Slightly smaller text */
+        min-height: 2.2rem !important;     /* Compact vertical footprint */
         font-weight: 500;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        box-shadow: 0 2px 6px rgba(79, 70, 229, 0.15);
         transition: all 0.25s ease;
         touch-action: manipulation !important;
     }
@@ -72,10 +74,10 @@ st.markdown("""
         width: 100% !important;
     }
     
-    /* Force column structures to hold a fixed 20% width grid allocation */
+    /* Force column structures to hold a fixed tight width grid allocation */
     [data-testid="stHorizontalBlock"] > [data-testid="column"] {
-        width: calc(20% - 0.4rem) !important;
-        flex: 1 1 calc(20% - 0.4rem) !important;
+        width: calc(20% - 0.2rem) !important;
+        flex: 1 1 calc(20% - 0.2rem) !important;
         min-width: 10px !important;
     }
     
