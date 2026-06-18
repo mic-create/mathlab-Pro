@@ -91,6 +91,16 @@ st.markdown("""
         backdrop-filter: blur(4px);
     }
     
+    /* Real Display Latex Live Viewboard Wrapper */
+    .real-display-panel {
+        background: rgba(14, 14, 28, 0.8);
+        border-left: 4px solid #6366F1;
+        padding: 1rem;
+        border-radius: 0 8px 8px 0;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
     /* Control Form Elements and Tables Typography */
     div[data-testid="stSelectbox"] div[data-baseweb="select"] {
         background-color: #141423 !important;
@@ -135,7 +145,7 @@ FORMULA_DB = {
     }
 }
 
-# Rebuilt and Comprehensive Mathematics Dictionary featuring structured definitions and explicit LaTeX equations
+# Mathematics Dictionary
 DICT_DB = {
     "Arithmetic Progression (AP)": {
         "def": "A sequence of numbers in which the difference between consecutive terms is constant.",
@@ -200,7 +210,6 @@ with st.sidebar:
         </div>
     """, unsafe_allow_html=True)
     
-    # Try embedding localized structural branding logo asset
     try:
         st.image("My Logo.png", use_container_width=True)
     except Exception:
@@ -209,7 +218,7 @@ with st.sidebar:
     st.markdown("<p style='color: #64748B; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom: 0.3rem;'>Navigation Matrix</p>", unsafe_allow_html=True)
     page = st.selectbox(
         "Workspace Viewport selector",
-        ["🏠 Home Dashboard", "📖 Expanded Dictionary", "📐 Trig Table Generator", "⚡ Differentiation Solver", "integral_view", "Advanced Geometry", "📚 Formula Library", 
+        ["🏠 Home Dashboard", "⚡ Differentiation Solver", "integral_view", "📐 Trig Table Generator", "Advanced Geometry", "📚 Formula Library", "📖 Dictionary", 
          "📈 Graphing Tool", "📊 Statistics Calc", "🔢 Matrix Calc", "🔄 Unit Converter", "🎯 Practice Zone"],
         label_visibility="collapsed"
     )
@@ -291,8 +300,102 @@ if page == "🏠 Home Dashboard":
             </div>
         """, unsafe_allow_html=True)
 
+# --- WORKSPACE: DIFFERENTIATION SOLVER (REAL TEXTBOOK DISPLAY UPDATE) ---
+elif page == "⚡ Differentiation Solver":
+    st.title("⚡ Symbolic Differentiation Engine")
+    st.write("Compute exact analytical derivatives. Code notation shortcuts are evaluated instantly into standard display formatting.")
+    
+    diff_expr_str = st.text_input("Enter Function Equation Expression f(x):", "x**3 - 5*x**2 + 2*x - 10")
+    
+    # Live Real Display Input Monitor Viewboard Panel
+    st.markdown("<p style='font-size:0.85rem; color:#818CF8; margin-bottom:2px; font-weight:600;'>✨ Live Real Display Math Preview Panel:</p>", unsafe_allow_html=True)
+    try:
+        x = sp.symbols('x')
+        parsed_live = sp.sympify(diff_expr_str)
+        st.markdown('<div class="real-display-panel">', unsafe_allow_html=True)
+        st.latex(f"f(x) = {sp.latex(parsed_live)}")
+        st.markdown('</div>', unsafe_allow_html=True)
+    except Exception:
+        st.caption("(Waiting for valid expression sequence syntax entry...)")
+
+    order_val = st.number_input("Derivative Order Sequence Iteration ($n$-th derivative)", min_value=1, max_value=5, value=1)
+    
+    if st.button("Execute Symbolic Differentiation", type="primary"):
+        try:
+            derived_sol = sp.diff(parsed_live, x, order_val)
+            
+            st.markdown("---")
+            st.markdown("### 📋 Final Calculated Workspace Matrix")
+            
+            col_res1, col_res2 = st.columns(2)
+            with col_res1:
+                st.info("Input Expression Matrix:")
+                st.latex(f"f(x) = {sp.latex(parsed_live)}")
+            with col_res2:
+                st.success("Computed Real Display Output:")
+                if order_val == 1:
+                    st.latex(f"f'(x) = {sp.latex(derived_sol)}")
+                elif order_val == 2:
+                    st.latex(f"f''(x) = {sp.latex(derived_sol)}")
+                else:
+                    st.latex(f"\\frac{{d^{order_val}}}{{dx^{order_val}}} f(x) = {sp.latex(derived_sol)}")
+            
+            # Interactive point evaluation module addition
+            st.markdown("---")
+            st.subheader("📍 Target Coordinate Gradient Evaluator")
+            eval_pt = st.number_input("Evaluate Target Axis Point location ($x_0$):", value=2.0)
+            numeric_slope = float(derived_sol.subs(x, eval_pt).evalf())
+            st.metric(f"Instantaneous Tangent Velocity Slope at x = {eval_pt}", f"{numeric_slope:.4f}")
+        except Exception as e:
+            st.error(f"Symbolic evaluation compilation processing error: {e}")
+
+# --- INTEGRATION SOLVER (REAL TEXTBOOK DISPLAY UPDATE) ---
+elif page == "integral_view":
+    st.title("🔗 Analytical Integration Modeling Studio")
+    st.write("Resolve exact symbolic primitives or map computational bounding regions via integration display frameworks.")
+    
+    int_type = st.radio("Integration Operational Framework Type:", ["Indefinite Calculus", "Definite Calculus Boundary Matrix"])
+    int_expr_str = st.text_input("Enter Integrand Function Expression f(x):", "3*x**2 + 2*x")
+    
+    # Live Real Display Preview Panel
+    st.markdown("<p style='font-size:0.85rem; color:#818CF8; margin-bottom:2px; font-weight:600;'>✨ Live Real Display Math Preview Panel:</p>", unsafe_allow_html=True)
+    try:
+        x = sp.symbols('x')
+        parsed_int_expr = sp.sympify(int_expr_str)
+        st.markdown('<div class="real-display-panel">', unsafe_allow_html=True)
+        if int_type == "Indefinite Calculus":
+            st.latex(f"\\int \\left({sp.latex(parsed_int_expr)}\\right) dx")
+        else:
+            st.latex(f"\\int_{{a}}^{{b}} \\left({sp.latex(parsed_int_expr)}\\right) dx")
+        st.markdown('</div>', unsafe_allow_html=True)
+    except Exception:
+        st.caption("(Waiting for valid integrated input expression configuration...)")
+        
+    try:
+        if int_type == "Indefinite Calculus":
+            if st.button("Compute Indefinite Primitive Matrix", type="primary"):
+                sol_int = sp.integrate(parsed_int_expr, x)
+                st.markdown("---")
+                st.markdown("### 📋 Final Calculated Workspace Matrix")
+                st.latex(f"\\int \\left({sp.latex(parsed_int_expr)}\\right) dx = {sp.latex(sol_int)} + C")
+                
+        else:
+            col_b1, col_b2 = st.columns(2)
+            with col_b1:
+                lower_bound = st.number_input("Lower Range Matrix Limit Boundary ($a$)", value=0.0)
+            with col_b2:
+                upper_bound = st.number_input("Upper Range Matrix Limit Boundary ($b$)", value=2.0)
+                
+            if st.button("Compute Definite Boundary Area Enclosure", type="primary"):
+                sol_def_int = sp.integrate(parsed_int_expr, (x, lower_bound, upper_bound))
+                st.markdown("---")
+                st.markdown("### 📋 Final Calculated Workspace Matrix")
+                st.latex(f"\\int_{{{lower_bound}}}^{{{upper_bound}}} \\left({sp.latex(parsed_int_expr)}\\right) dx = {float(sol_def_int.evalf()):.5f}")
+    except Exception as e:
+        st.error(f"Integration Engine parse error: {e}")
+
 # --- EXPANDED DICTIONARY COMPONENT ---
-elif page == "📖 Expanded Dictionary":
+elif page == "📖 Dictionary":
     st.title("📖 Comprehensive Mathematical Formula Dictionary")
     st.write("Browse structured analytical concepts paired with mathematical identities and formulas.")
     
@@ -305,7 +408,6 @@ elif page == "📖 Expanded Dictionary":
         if search_d.lower() in term.lower() or search_d.lower() in data["def"].lower():
             found_any = True
             
-            # Rendering stylized wrapper card matching the main app framework
             st.markdown(f"""
                 <div class="dict-card">
                     <h3 style="color: #818CF8; margin: 0 0 0.5rem 0; font-size: 1.4rem;">{term}</h3>
@@ -313,11 +415,9 @@ elif page == "📖 Expanded Dictionary":
                 </div>
             """, unsafe_allow_html=True)
             
-            # Separate crisp math blocks for execution safety
             st.markdown("**Governing Formula Identity:**")
             st.markdown(data["formula"])
             
-            # Bookmark integration action row
             fav_label = "⭐ Bookmarked" if term in st.session_state.favorites else "☆ Add to Bookmark Stack"
             if st.button(fav_label, key=f"dict_fav_{term}"):
                 toggle_favorite(term)
@@ -358,66 +458,6 @@ elif page == "📐 Trig Table Generator":
     df_trig = pd.DataFrame(trig_data)
     st.dataframe(df_trig, use_container_width=True, height=450)
     st.download_button("Export Compiled Trigonometric Matrix Data Block", df_trig.to_csv(index=False), "trig_matrix_export.csv")
-
-# --- DIFFERENTIATION SOLVER ---
-elif page == "⚡ Differentiation Solver":
-    st.title("⚡ Symbolic Differentiation Engine")
-    st.write("Compute exact derivatives, higher-order multi-derivatives, and evaluate slope gradients at custom coordinates.")
-    
-    diff_expr_str = st.text_input("Enter Function Equation Expression f(x):", "x**3 - 5*x**2 + 2*x - 10")
-    order_val = st.number_input("Derivative Order Sequence Iteration ($n$-th derivative)", min_value=1, max_value=5, value=1)
-    
-    if st.button("Execute Numerical Differentiation"):
-        try:
-            x = sp.symbols('x')
-            parsed_diff_expr = sp.sympify(diff_expr_str)
-            derived_sol = sp.diff(parsed_diff_expr, x, order_val)
-            
-            st.markdown("### Structural Transformation Analytics")
-            st.write("Original Equation Function Input:")
-            st.latex(f"f(x) = {sp.latex(parsed_diff_expr)}")
-            st.write(f"Resulting Derivative State Order ({order_val}):")
-            st.latex(f"\\frac{{d^{order_val}}}{{dx^{order_val}}} f(x) = {sp.latex(derived_sol)}")
-            
-            st.markdown("---")
-            st.subheader("Point Coordinate Gradient Evaluator")
-            eval_pt = st.number_input("Evaluate Target Axis Point location ($x_0$):", value=2.0)
-            numeric_slope = float(derived_sol.subs(x, eval_pt).evalf())
-            st.metric(f"Instantaneous Tangent Slope Velocity Value at x = {eval_pt}", f"{numeric_slope:.4f}")
-        except Exception as e:
-            st.error(f"Symbolic validation compilation processing error: {e}")
-
-# --- INTEGRATION SOLVER ---
-elif page == "integral_view":
-    st.title("🔗 Analytical Integration Modeling Studio")
-    st.write("Resolve exact symbolic primitives or map computational bounding regions via definite integral boundaries.")
-    
-    int_type = st.radio("Integration Operational Calculus Framework Type:", ["Indefinite Calculus", "Definite Calculus Boundary Matrix"])
-    int_expr_str = st.text_input("Enter Integrand Function Expression f(x):", "3*x**2 + 2*x")
-    
-    x = sp.symbols('x')
-    try:
-        parsed_int_expr = sp.sympify(int_expr_str)
-        
-        if int_type == "Indefinite Calculus":
-            if st.button("Compute Indefinite Primitive Matrix"):
-                sol_int = sp.integrate(parsed_int_expr, x)
-                st.markdown("### Primitive Indefinite Anti-Derivative Map Result")
-                st.latex(f"\\int f(x) dx = {sp.latex(sol_int)} + C")
-                
-        else:
-            col_b1, col_b2 = st.columns(2)
-            with col_b1:
-                lower_bound = st.number_input("Lower Range Matrix Limit Boundary ($a$)", value=0.0)
-            with col_b2:
-                upper_bound = st.number_input("Upper Range Matrix Limit Boundary ($b$)", value=2.0)
-                
-            if st.button("Compute Definite Boundary Area Enclosure"):
-                sol_def_int = sp.integrate(parsed_int_expr, (x, lower_bound, upper_bound))
-                st.markdown("### Area Vector Definite Sum Result")
-                st.latex(f"\\int_{{{lower_bound}}}^{{{upper_bound}}} f(x) dx = {float(sol_def_int.evalf()):.5f}")
-    except Exception as e:
-        st.error(f"Integration Engine parse stack overflow event: {e}")
 
 # --- ADVANCED GEOMETRY ---
 elif page == "Advanced Geometry":
