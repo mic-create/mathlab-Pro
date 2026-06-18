@@ -11,8 +11,8 @@ from scipy import stats
 # 1. INITIALIZATION & CONFIGURATION
 # ==========================================
 st.set_page_config(
-    page_title="MathLab Pro",
-    page_icon="🧮",
+    page_title="MathLab Pro v3.0",
+    page_icon="📐",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -26,101 +26,77 @@ if 'quiz_score' not in st.session_state:
     st.session_state.quiz_score = {'correct': 0, 'total': 0}
 if 'quiz_current' not in st.session_state:
     st.session_state.quiz_current = None
+if 'system_kernel_status' not in st.session_state:
+    st.session_state.system_kernel_status = "ONLINE"
 
-# Custom CSS for Background Image, Circular Buttons, & Responsive Mobile Matrix
+# Custom CSS for Sleek Glassmorphic Sidebar, Background Wallpaper & Typography
 st.markdown("""
     <style>
-    /* Global Background Adjustments & Custom Logo Watermark Background */
-    .main .block-container { 
-        padding-top: 2rem; 
-        position: relative;
-        z-index: 1;
+    /* Global App Wallpaper Background Injection */
+    .stApp {
+        background: linear-gradient(rgba(10, 10, 18, 0.92), rgba(10, 10, 18, 0.96)), 
+                    url("app/static/My Logo.png") no-repeat center center fixed;
+        background-size: cover !important;
     }
     
-    .main::before {
-        content: "";
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background-image: url("app/static/My Loho.png"); /* Serves the local file from streamlit static path */
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 40%; /* Adjust size of background watermark */
-        opacity: 0.04;        /* Very light opacity to keep text perfectly legible */
-        z-index: -1;
-        pointer-events: none;
-    }
+    .main .block-container { padding-top: 1.5rem; }
     
-    /* Advanced Sidebar Styling */
+    /* Advanced Ultra-Sophisticated Sidebar Styling */
     [data-testid="stSidebar"] {
-        background-color: #0F0F16 !important;
-        border-right: 1px solid #222336;
+        background: linear-gradient(180deg, rgba(16, 16, 28, 0.98) 0%, rgba(10, 10, 16, 1) 100%) !important;
+        border-right: 1px solid rgba(99, 102, 241, 0.2);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
     }
     
-    /* Clean Up Native Sidebar Text Spacing */
-    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] span {
-        font-family: 'Inter', -apple-system, sans-serif;
-        color: #E2E8F0;
+    /* Custom Decorative Header Container inside Sidebar */
+    .sidebar-brand-box {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%);
+        border: 1px solid rgba(99, 102, 241, 0.25);
+        padding: 1.2rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        text-align: center;
     }
     
-    /* Transform Buttons into Sleek Circular Layouts */
-    div.stButton > button:first-child {
-        background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%); 
-        color: white; 
-        border-radius: 50% !important;     /* Perfect Circle */
-        border: none;
-        padding: 0 !important;             /* Clear standard padding */
-        width: 2.8rem !important;          /* Fixed identical width and height */
-        height: 2.8rem !important;         
-        font-size: 0.95rem !important;     
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto !important;         /* Center keys inside layout */
-        box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
-        transition: all 0.2s ease;
-        touch-action: manipulation !important;
+    /* Custom Sidebar Metrics Panel */
+    .sidebar-status-pill {
+        display: inline-block;
+        background: rgba(16, 185, 129, 0.15);
+        color: #10B981;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.2rem 0.6rem;
+        border-radius: 20px;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
     
-    div.stButton > button:first-child:hover { 
-        background: linear-gradient(135deg, #4338CA 0%, #2563EB 100%); 
-        transform: scale(1.08);             /* Pop effect */
-        box-shadow: 0 6px 14px rgba(79, 70, 229, 0.3);
-    }
-    
-    /* --- CRITICAL PHONE HORIZONTAL ROW INLINE FIX --- */
-    [data-testid="stHorizontalBlock"] {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        width: 100% !important;
-    }
-    
-    [data-testid="stHorizontalBlock"] > [data-testid="column"] {
-        width: calc(20% - 0.3rem) !important;
-        flex: 1 1 calc(20% - 0.3rem) !important;
-        min-width: 10px !important;
-    }
-    
-    /* Modern Dashboard Cards */
+    /* Formatted Content Cards */
     .metric-card {
-        background: #161624; 
+        background: rgba(22, 22, 38, 0.7); 
         border-radius: 12px; 
-        padding: 1.5rem;
-        border: 1px solid #222336; 
-        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        padding: 1.2rem;
+        border: 1px solid rgba(255, 255, 255, 0.05); 
+        backdrop-filter: blur(8px);
     }
     
-    /* Streamlit Selectbox Customization in Sidebar */
+    /* Control Form Elements and Tables Typography */
     div[data-testid="stSelectbox"] div[data-baseweb="select"] {
-        background-color: #161624 !important;
-        border: 1px solid #222336 !important;
+        background-color: #141423 !important;
+        border: 1px solid rgba(99, 102, 241, 0.2) !important;
         border-radius: 8px !important;
+    }
+    
+    .stDataFrame {
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        overflow: hidden;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Helper function for notifications/bookmarks
+# Helper function for bookmarks
 def toggle_favorite(item: str):
     if item in st.session_state.favorites:
         st.session_state.favorites.remove(item)
@@ -158,234 +134,232 @@ DICT_DB = {
 }
 
 # ==========================================
-# 3. SIDEBAR NAVIGATION & LOGO
+# 3. HIGHLY SOPHISTICATED SIDEBAR WORKSPACE
 # ==========================================
 with st.sidebar:
+    # Top Level Interactive Header Branding Container
+    st.markdown("""
+        <div class="sidebar-brand-box">
+            <h3 style="color: #F8FAFC; margin: 0; font-size: 1.4rem; font-weight: 800;">MATHLAB <span style="color:#6366F1;">PRO</span></h3>
+            <p style="color: #94A3B8; margin: 0.2rem 0 0.6rem 0; font-size: 0.8rem;">Computational Engine v3.0</p>
+            <div class="sidebar-status-pill">● Engine Live</div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # Try embedding localized structural branding logo asset
     try:
         st.image("My Logo.png", use_container_width=True)
     except Exception:
-        st.markdown("<h2 style='color: #6366F1; margin-bottom: 0;'>Overah Core</h2>", unsafe_allow_html=True)
+        pass
         
-    st.title("🧪 MathLab Pro")
-    st.caption("Advanced Mathematical Workspace v2.0")
-    st.markdown("---")
-    
+    st.markdown("<p style='color: #64748B; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom: 0.3rem;'>Navigation Matrix</p>", unsafe_allow_html=True)
     page = st.selectbox(
-        "Navigate Workspace",
-        ["🏠 Home", "🧮 Smart Calculator", "📚 Formula Library", "📖 Dictionary", 
-         "📈 Graphing Tool", "📐 Geometry Calc", "📊 Statistics Calc", 
-         "🔢 Matrix Calc", "🔄 Unit Converter", "📝 Equation Solver", "🎯 Practice Zone"]
+        "Workspace Viewport selector",
+        ["🏠 Home Dashboard", "📐 Trig Table Generator", "⚡ Differentiation Solver", "integral_view", "Advanced Geometry", "📚 Formula Library", "📖 Dictionary", 
+         "📈 Graphing Tool", "📊 Statistics Calc", "🔢 Matrix Calc", "🔄 Unit Converter", "🎯 Practice Zone"],
+        label_visibility="collapsed"
     )
     
     st.markdown("---")
-    st.markdown("### ⭐ Saved Bookmarks")
+    
+    # NEW SIDEBAR FEATURE 1: System Hardware/Kernel Status Diagnostics Controller Panel
+    with st.expander("🛠️ System Diagnostics", expanded=False):
+        st.caption("Computational Kernel Status")
+        if st.checkbox("Toggle Engine Override Mode", value=False):
+            st.session_state.system_kernel_status = "OVERRIDE"
+            st.warning("Kernel running in experimental bypass.")
+        else:
+            st.session_state.system_kernel_status = "ONLINE"
+        st.write(f"Active Port State: `CPU-THREAD-LIVE`")
+        st.write(f"Workspace Mode: `{st.session_state.system_kernel_status}`")
+        
+    # NEW SIDEBAR FEATURE 2: Real-time Session Activity Metrics Tracker
+    with st.expander("📊 Runtime Analytics", expanded=False):
+        st.metric("Logged Operations", f"{len(st.session_state.history)} entries")
+        st.metric("Total Favorites", f"{len(st.session_state.favorites)} bookmarked")
+        if st.button("Purge Temporary Volatile Memory"):
+            st.session_state.history = []
+            st.rerun()
+
+    # NEW SIDEBAR FEATURE 3: Elegant Bookmark Registry Viewport
+    st.markdown("### ⭐ Active Bookmarks")
     if st.session_state.favorites:
         for fav in st.session_state.favorites:
-            st.caption(f"• {fav}")
+            st.markdown(f"<code style='color:#818CF8; background:rgba(129,140,248,0.1); padding:2px 6px; border-radius:4px; font-size:0.8rem;'>{fav}</code>", unsafe_allow_html=True)
     else:
-        st.caption("No items bookmarked yet.")
+        st.caption("No operational definitions flagged inside lookup stack.")
 
 # ==========================================
-# 4. PAGE IMPLEMENTATIONS
+# 4. PRIMARY VIEWPORT SUBSYSTEMS
 # ==========================================
 
-# --- HOME PAGE ---
-if page == "🏠 Home":
+# --- HOME DASHBOARD ---
+if page == "🏠 Home Dashboard":
     st.markdown("""
-        <div style="background: linear-gradient(135deg, #1E1B4B 0%, #0F172A 100%); 
-                    padding: 2.5rem; border-radius: 16px; border: 1px solid #312E81; 
-                    margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
-            <h1 style="color: #F8FAFC; margin: 0; font-size: 2.8rem; font-weight: 800; letter-spacing: -0.025em;">
-                MathLab <span style="background: linear-gradient(90deg, #6366F1, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pro</span>
+        <div style="background: linear-gradient(135deg, rgba(30, 27, 75, 0.6) 0%, rgba(15, 23, 42, 0.7) 100%); 
+                    padding: 2.2rem; border-radius: 16px; border: 1px solid rgba(99, 102, 241, 0.2); 
+                    margin-bottom: 2rem; backdrop-filter: blur(10px);">
+            <h1 style="color: #F8FAFC; margin: 0; font-size: 2.6rem; font-weight: 800; letter-spacing: -0.025em;">
+                Welcome to MathLab <span style="background: linear-gradient(90deg, #6366F1, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pro v3.0</span>
             </h1>
-            <p style="color: #94A3B8; margin: 0.75rem 0 0 0; font-size: 1.2rem; max-width: 600px; line-height: 1.6;">
-                The high-performance predictive analytics and computational modeling environment for modern engineered workflows.
+            <p style="color: #94A3B8; margin: 0.6rem 0 0 0; font-size: 1.1rem; max-width: 700px; line-height: 1.6;">
+                An integrated analytical development environment specialized in symbolic calculus transformations, advanced spatial geometric coordinates, and numeric matrix mapping.
             </p>
         </div>
     """, unsafe_allow_html=True)
     
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns(3)
     with col1:
-        st.markdown(f"""
+        st.markdown("""
             <div class='metric-card'>
-                <p style='color: #64748B; margin:0; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;'>Log Volatility</p>
-                <h2 style='color: #F1F5F9; margin:0.3rem 0; font-size: 1.8rem;'>{len(st.session_state.history)} ops</h2>
-                <span style='color: #10B981; font-size: 0.8rem; font-weight: 600;'>↑ System Active</span>
+                <h4 style='color: #6366F1; margin-top:0;'>⚡ High-Speed Calculus</h4>
+                <p style='color: #94A3B8; font-size:0.9rem; line-height:1.5; margin-bottom:0;'>
+                    Execute direct integration transformations or differentiation limits symbolically with instant SymPy computation chains.
+                </p>
             </div>
         """, unsafe_allow_html=True)
     with col2:
-        st.markdown(f"""
+        st.markdown("""
             <div class='metric-card'>
-                <p style='color: #64748B; margin:0; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;'>Stored Matrices</p>
-                <h2 style='color: #F1F5F9; margin:0.3rem 0; font-size: 1.8rem;'>{len(st.session_state.favorites)} index</h2>
-                <span style='color: #6366F1; font-size: 0.8rem; font-weight: 600;'>★ Static Variables</span>
+                <h4 style='color: #34D399; margin-top:0;'>📐 Advanced Geometry</h4>
+                <p style='color: #94A3B8; font-size:0.9rem; line-height:1.5; margin-bottom:0;'>
+                    Analyze complex multidimensional solids including spheres, cones, and composite parameters instantly with absolute accuracy.
+                </p>
             </div>
         """, unsafe_allow_html=True)
     with col3:
-        quiz_pct = (st.session_state.quiz_score['correct'] / max(st.session_state.quiz_score['total'], 1)) * 100
-        st.markdown(f"""
-            <div class='metric-card'>
-                <p style='color: #64748B; margin:0; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;'>Core Competency</p>
-                <h2 style='color: #F1F5F9; margin:0.3rem 0; font-size: 1.8rem;'>{quiz_pct:.1f}%</h2>
-                <span style='color: #3B82F6; font-size: 0.8rem; font-weight: 600;'>⚡ Engine Rating</span>
-            </div>
-        """, unsafe_allow_html=True)
-    with col4:
         st.markdown("""
             <div class='metric-card'>
-                <p style='color: #64748B; margin:0; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;'>Engine Status</p>
-                <h2 style='color: #10B981; margin:0.3rem 0; font-size: 1.8rem;'>Nominal</h2>
-                <span style='color: #10B981; font-size: 0.8rem; font-weight: 600;'>● SymPy Live</span>
-            </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-    left_panel, right_panel = st.columns([2, 1])
-    
-    with left_panel:
-        st.markdown("<h3 style='color: #E2E8F0; margin-bottom: 1rem;'>🚀 High-Priority Subsystems</h3>", unsafe_allow_html=True)
-        row1_col1, row1_col2 = st.columns(2)
-        with row1_col1:
-            st.markdown("""
-                <div style="background: #161624; padding: 1.5rem; border-radius: 12px; border: 1px solid #222336; height: 180px;">
-                    <h4 style="margin: 0 0 0.5rem 0; color: #818CF8;">📈 Advanced Vector Grapher</h4>
-                    <p style="margin: 0; color: #94A3B8; font-size: 0.9rem; line-height: 1.5;">
-                        Deploy high-resolution Plotly canvases featuring custom range mapping, functional evaluation, and real-time step monitoring.
-                    </p>
-                </div>
-            """, unsafe_allow_html=True)
-        with row1_col2:
-            st.markdown("""
-                <div style="background: #161624; padding: 1.5rem; border-radius: 12px; border: 1px solid #222336; height: 180px;">
-                    <h4 style="margin: 0 0 0.5rem 0; color: #34D399;">📝 Analytical Step Solver</h4>
-                    <p style="margin: 0; color: #94A3B8; font-size: 0.9rem; line-height: 1.5;">
-                        Process symbolic computations and isolate non-linear variables. Powered by direct algorithmic factorization.
-                    </p>
-                </div>
-            """, unsafe_allow_html=True)
-            
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("<h4 style='color: #E2E8F0;'>🕒 Recent Session Kernels</h4>", unsafe_allow_html=True)
-        if st.session_state.history:
-            st.dataframe(pd.DataFrame(st.session_state.history).tail(3), use_container_width=True)
-        else:
-            st.markdown('<div style="background: #11111B; border: 1px dashed #313244; padding: 1rem; border-radius: 8px; text-align: center; color: #6C7086;">No operational kernels compiled within current memory trace.</div>', unsafe_allow_html=True)
-
-    with right_panel:
-        st.markdown("<h3 style='color: #E2E8F0; margin-bottom: 1rem;'>💡 System Insight</h3>", unsafe_allow_html=True)
-        st.markdown("""
-            <div style="background: #1E1E2E; padding: 1.5rem; border-radius: 12px; border: 1px solid #313244;">
-                <h5 style="margin: 0 0 0.5rem 0; color: #F5E0DC;">Mathematical Quote of the Day</h5>
-                <p style="font-style: italic; color: #A6ADC8; font-size: 0.95rem; line-height: 1.5; margin-bottom: 1rem;">
-                    "The study of mathematics, like the Nile, begins in minuteness but ends in magnificence."
+                <h4 style='color: #3B82F6; margin-top:0;'>📊 Trigonometric Indices</h4>
+                <p style='color: #94A3B8; font-size:0.9rem; line-height:1.5; margin-bottom:0;'>
+                    Generate completely customizable modular grid mapping structures across customized step boundaries for high-precision validation.
                 </p>
-                <span style="color: #F38BA8; font-size: 0.85rem; font-weight: 600;">— Charles Caleb Colton</span>
             </div>
         """, unsafe_allow_html=True)
-        st.markdown("<br>", unsafe_allow_html=True)
-        with st.expander("🛠️ Environment Architecture Specs", expanded=True):
-            st.markdown("""
-                - **Primary Solver Core:** SymPy Symbolic Matrix
-                - **Float Execution Layer:** NumPy Vector Arrays 
-                - **Render Host Layout:** Wide Screen Canvas Viewport
-                - **Session Security Layer:** Sandboxed Tokenization
-            """)
 
-# --- SMART CALCULATOR ---
-elif page == "🧮 Smart Calculator":
-    st.title("🧮 Smart Calculator Workstation")
+# --- NEW WORKSPACE: TRIGONOMETRIC TABLE GENERATOR ---
+elif page == "📐 Trig Table Generator":
+    st.title("📐 Dynamic Trigonometric Reference Array Matrix")
+    st.write("Generate customized, high-precision trigonometric data grids across flexible interval configurations.")
     
-    calc_mode = st.tabs(["Interactive Button Pad", "Expression Evaluator", "History Logs"])
+    col_t1, col_t2, col_t3 = st.columns(3)
+    with col_t1:
+        angle_mode = st.radio("Angle Measurement Base Scale Unit:", ["Degrees", "Radians"])
+    with col_t2:
+        step_val = st.number_input("Incremental Step Frequency Bounds", min_value=0.1, max_value=45.0, value=15.0 if angle_mode == "Degrees" else 0.25)
+    with col_t3:
+        precision_val = st.slider("Decimal Fraction Precision Cutoff", 2, 10, 5)
+        
+    # Boundary Arrays Calculation Setup
+    if angle_mode == "Degrees":
+        angles = np.arange(0, 360 + step_val, step_val)
+        rad_angles = np.radians(angles)
+    else:
+        angles = np.arange(0, (2 * np.pi) + step_val, step_val)
+        rad_angles = angles
+        
+    # Generate Compute Map Frame
+    trig_data = {
+        f"Angle ({angle_mode})": np.round(angles, precision_val),
+        "Sine (sin)": np.round(np.sin(rad_angles), precision_val),
+        "Cosine (cos)": np.round(np.cos(rad_angles), precision_val),
+        "Tangent (tan)": [f"±∞" if np.isclose(np.abs(np.cos(r)), 0.0, atol=1e-10) else str(np.round(np.tan(r), precision_val)) for r in rad_angles]
+    }
     
-    with calc_mode[0]:
-        if 'calc_input' not in st.session_state:
-            st.session_state.calc_input = ""
+    df_trig = pd.DataFrame(trig_data)
+    st.dataframe(df_trig, use_container_width=True, height=450)
+    st.download_button("Export Compiled Trigonometric Matrix Data Block", df_trig.to_csv(index=False), "trig_matrix_export.csv")
+
+# --- NEW WORKSPACE: DIFFERENTIATION SOLVER ---
+elif page == "⚡ Differentiation Solver":
+    st.title("⚡ Symbolic Differentiation Engine")
+    st.write("Compute exact derivatives, higher-order multi-derivatives, and evaluate slope gradients at custom coordinates.")
+    
+    diff_expr_str = st.text_input("Enter Function Equation Expression f(x):", "x**3 - 5*x**2 + 2*x - 10")
+    order_val = st.number_input("Derivative Order Sequence Iteration ($n$-th derivative)", min_value=1, max_value=5, value=1)
+    
+    if st.button("Execute Numerical Differentiation"):
+        try:
+            x = sp.symbols('x')
+            parsed_diff_expr = sp.sympify(diff_expr_str)
+            derived_sol = sp.diff(parsed_diff_expr, x, order_val)
             
-        st.markdown(f"""
-            <div style="background-color: #1E1E2E; padding: 1.5rem; border-radius: 8px; 
-                        border: 2px solid #313244; font-size: 2rem; text-align: right; 
-                        color: #A6ADC8; font-family: monospace; min-height: 4rem; margin-bottom: 1rem; white-space: nowrap; overflow: hidden;">
-                {st.session_state.calc_input if st.session_state.calc_input else "0"}
-            </div>
-        """, unsafe_allow_html=True)
+            st.markdown("### Structural Transformation Analytics")
+            st.write("Original Equation Function Input:")
+            st.latex(f"f(x) = {sp.latex(parsed_diff_expr)}")
+            st.write(f"Resulting Derivative State Order ({order_val}):")
+            st.latex(f"\\frac{{d^{order_val}}}{{dx^{order_val}}} f(x) = {sp.latex(derived_sol)}")
+            
+            # Interactive point evaluation module addition
+            st.markdown("---")
+            st.subheader("Point Coordinate Gradient Evaluator")
+            eval_pt = st.number_input("Evaluate Target Axis Point location ($x_0$):", value=2.0)
+            numeric_slope = float(derived_sol.subs(x, eval_pt).evalf())
+            st.metric(f"Instantaneous Tangent Slope Velocity Value at x = {eval_pt}", f"{numeric_slope:.4f}")
+        except Exception as e:
+            st.error(f"Symbolic validation compilation processing error: {e}")
+
+# --- NEW WORKSPACE: INTEGRATION SOLVER ---
+elif page == "integral_view":
+    st.title("🔗 Analytical Integration Modeling Studio")
+    st.write("Resolve exact symbolic primitives or map computational bounding regions via definite integral boundaries.")
+    
+    int_type = st.radio("Integration Operational Calculus Framework Type:", ["Indefinite Calculus", "Definite Calculus Boundary Matrix"])
+    int_expr_str = st.text_input("Enter Integrand Function Expression f(x):", "3*x**2 + 2*x")
+    
+    x = sp.symbols('x')
+    try:
+        parsed_int_expr = sp.sympify(int_expr_str)
         
-        # Grid Configuration mapping
-        buttons = [
-            ['7', '8', '9', '/', 'C'],
-            ['4', '5', '6', '*', 'DEL'],
-            ['1', '2', '3', '-', 'sin('],
-            ['0', '.', '=', '+', 'cos('],
-            ['π', '(', ')', 'x²', 'tan('],
-            ['√', 'x³', 'log(', 'exp(', ',']
-        ]
-        
-        for row in buttons:
-            cols = st.columns(5)
-            for idx, button_text in enumerate(row):
-                with cols[idx]:
-                    if st.button(button_text, key=f"btn_{button_text}", use_container_width=True):
-                        if button_text == 'C':
-                            st.session_state.calc_input = ""
-                            st.rerun()
-                        elif button_text == 'DEL':
-                            st.session_state.calc_input = st.session_state.calc_input[:-1]
-                            st.rerun()
-                        elif button_text == '=':
-                            try:
-                                internal_expr = st.session_state.calc_input
-                                internal_expr = internal_expr.replace('π', 'pi')
-                                internal_expr = internal_expr.replace('x²', '**2')
-                                internal_expr = internal_expr.replace('x³', '**3')
-                                internal_expr = internal_expr.replace('√(', 'sqrt(')
-                                
-                                # Enforce base-10 log calculations safely
-                                if 'log(' in internal_expr:
-                                    parsed_expr = sp.sympify(internal_expr, local_dict={'log': lambda x: sp.log(x, 10)})
-                                else:
-                                    parsed_expr = sp.sympify(internal_expr)
-                                    
-                                numeric_res = float(parsed_expr.evalf())
-                                
-                                st.session_state.history.append({
-                                    "timestamp": datetime.now().strftime("%H:%M:%S"), 
-                                    "expr": st.session_state.calc_input, 
-                                    "res": f"{numeric_res:.4f}"
-                                })
-                                st.session_state.calc_input = f"{numeric_res:.4f}"
-                                st.rerun()
-                            except Exception:
-                                st.error("Syntax Error")
-                        elif button_text == 'x²':
-                            st.session_state.calc_input += "**2"
-                            st.rerun()
-                        elif button_text == 'x³':
-                            st.session_state.calc_input += "**3"
-                            st.rerun()
-                        elif button_text == '√':
-                            st.session_state.calc_input += "sqrt("
-                            st.rerun()
-                        else:
-                            st.session_state.calc_input += button_text
-                            st.rerun()
-                            
-    with calc_mode[1]:
-        st.markdown("#### Direct Python Syntax Terminal")
-        raw_code = st.text_input("Raw Evaluation Input", "2**10 + 500")
-        if raw_code:
-            try:
-                allowed_names = {k: v for k, v in np.__dict__.items() if not k.startswith("__")}
-                res = eval(raw_code, {"__builtins__": None}, allowed_names)
-                st.info(f"Output: {res}")
-            except Exception as e:
-                st.error(f"Syntax Error: {e}")
+        if int_type == "Indefinite Calculus":
+            if st.button("Compute Indefinite Primitive Matrix"):
+                sol_int = sp.integrate(parsed_int_expr, x)
+                st.markdown("### Primitive Indefinite Anti-Derivative Map Result")
+                st.latex(f"\\int f(x) dx = {sp.latex(sol_int)} + C")
                 
-    with calc_mode[2]:
-        if st.session_state.history:
-            df_hist = pd.DataFrame(st.session_state.history)
-            st.dataframe(df_hist, use_container_width=True)
-            st.download_button("Export Logs to CSV", df_hist.to_csv(index=False), "mathlab_history.csv")
         else:
-            st.write("No calculations logged yet.")
+            col_b1, col_b2 = st.columns(2)
+            with col_b1:
+                lower_bound = st.number_input("Lower Range Matrix Limit Boundary ($a$)", value=0.0)
+            with col_b2:
+                upper_bound = st.number_input("Upper Range Matrix Limit Boundary ($b$)", value=2.0)
+                
+            if st.button("Compute Definite Boundary Area Enclosure"):
+                sol_def_int = sp.integrate(parsed_int_expr, (x, lower_bound, upper_bound))
+                st.markdown("### Area Vector Definite Sum Result")
+                st.latex(f"\\int_{{{lower_bound}}}^{{{upper_bound}}} f(x) dx = {float(sol_def_int.evalf()):.5f}")
+    except Exception as e:
+        st.error(f"Integration Engine parse stack overflow event: {e}")
+
+# --- NEW WORKSPACE: ADVANCED GEOMETRY ---
+elif page == "Advanced Geometry":
+    st.title("💎 Advanced 3D Spatial Solid Geometry Core")
+    st.write("Compute surface areas, volumes, and directional space constraints for multidimensional geometric structures.")
+    
+    solid_type = st.selectbox("Select Target Solid Structure Matrix:", ["Sphere", "Right Circular Cone", "Ellipsoid Core"])
+    
+    if solid_type == "Sphere":
+        sphere_r = st.number_input("Sphere Radius ($r$)", min_value=0.01, value=5.0)
+        vol_sph = (4/3) * np.pi * (sphere_r**3)
+        area_sph = 4 * np.pi * (sphere_r**2)
+        st.metric("Total Enclosed Volume ($V$)", f"{vol_sph:.5f}")
+        st.metric("Total Surface Area Boundary ($A$)", f"{area_sph:.5f}")
+        
+    elif solid_type == "Right Circular Cone":
+        cone_r = st.number_input("Base Aperture Radius ($r$)", min_value=0.01, value=3.0)
+        cone_h = st.number_input("Vertical Altitude Displacement Height ($h$)", min_value=0.01, value=7.0)
+        slant_s = np.sqrt(cone_r**2 + cone_h**2)
+        vol_cone = (1/3) * np.pi * (cone_r**2) * cone_h
+        area_cone = np.pi * cone_r * (cone_r + slant_s)
+        st.metric("Calculated Enclosed Volume", f"{vol_cone:.5f}")
+        st.metric("Calculated Total Boundary Surface Area", f"{area_cone:.5f}")
+        
+    elif solid_type == "Ellipsoid Core":
+        semi_a = st.number_input("Semi-Principal X Axis Dimension Vector ($a$)", min_value=0.01, value=4.0)
+        semi_b = st.number_input("Semi-Principal Y Axis Dimension Vector ($b$)", min_value=0.01, value=3.0)
+        semi_c = st.number_input("Semi-Principal Z Axis Dimension Vector ($c$)", min_value=0.01, value=5.0)
+        vol_ellip = (4/3) * np.pi * semi_a * semi_b * semi_c
+        st.metric("Ellipsoidal Interior Spatial Volume Enclosure", f"{vol_ellip:.5f}")
 
 # --- FORMULA LIBRARY ---
 elif page == "📚 Formula Library":
@@ -442,29 +416,6 @@ elif page == "📈 Graphing Tool":
             st.plotly_chart(fig, use_container_width=True)
         except Exception as e:
             st.error(f"Plot generation failed: {e}")
-
-# --- GEOMETRY CALCULATOR ---
-elif page == "📐 Geometry Calc":
-    st.title("📐 Dynamic Shape Geometry Solver")
-    shape = st.selectbox("Select Shape Matrix", ["Circle", "Triangle", "Rectangle", "Cylinder"])
-    
-    if shape == "Circle":
-        r = st.number_input("Radius ($r$)", min_value=0.0, value=1.0)
-        st.metric("Calculated Area", f"{np.pi * r**2:.4f}")
-        st.metric("Calculated Circumference", f"{2 * np.pi * r:.4f}")
-    elif shape == "Rectangle":
-        w = st.number_input("Width ($w$)", min_value=0.0, value=1.0)
-        h = st.number_input("Height ($h$)", min_value=0.0, value=1.0)
-        st.metric("Calculated Area", f"{w * h:.4f}")
-        st.metric("Calculated Perimeter", f"{2 * (w + h):.4f}")
-    elif shape == "Triangle":
-        b = st.number_input("Base ($b$)", min_value=0.0, value=1.0)
-        h = st.number_input("Height ($h$)", min_value=0.0, value=1.0)
-        st.metric("Calculated Area", f"{0.5 * b * h:.4f}")
-    elif shape == "Cylinder":
-        r = st.number_input("Radius ($r$)", min_value=0.0, value=1.0)
-        h = st.number_input("Height ($h$)", min_value=0.0, value=1.0)
-        st.metric("Volume", f"{np.pi * r**2 * h:.4f}")
 
 # --- STATISTICS CALCULATOR ---
 elif page == "📊 Statistics Calc":
@@ -523,23 +474,6 @@ elif page == "🔄 Unit Converter":
         base_val = val * factors[unit_from]
         target_val = base_val / factors[unit_to]
         st.metric("Resulting Dimension Conversion", f"{target_val:.4f} {unit_to}")
-
-# --- EQUATION SOLVER ---
-elif page == "📝 Equation Solver":
-    st.title("📝 Analytical & Symbolic Equation Engine")
-    eq_str = st.text_input("Enter Equation equaled to zero state f(x) = 0", "x**2 - 5*x + 6")
-    
-    if st.button("Resolve System Roots"):
-        try:
-            x = sp.symbols('x')
-            parsed_eq = sp.sympify(eq_str)
-            solutions = sp.solve(parsed_eq, x)
-            
-            st.success("### Solutions Found")
-            for idx, sol in enumerate(solutions):
-                st.latex(f"x_{{{idx+1}}} = {sp.latex(sol)}")
-        except Exception as e:
-            st.error(f"Solver Engine error processing inputs: {e}")
 
 # --- PRACTICE ZONE ---
 elif page == "🎯 Practice Zone":
