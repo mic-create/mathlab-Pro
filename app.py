@@ -162,7 +162,7 @@ DICT_DB = {
 # ==========================================
 with st.sidebar:
     try:
-        st.image("My Loho.png", use_container_width=True)
+        st.image("My Logo.png", use_container_width=True)
     except Exception:
         st.markdown("<h2 style='color: #6366F1; margin-bottom: 0;'>Overah Core</h2>", unsafe_allow_html=True)
         
