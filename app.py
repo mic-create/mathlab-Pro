@@ -81,7 +81,7 @@ st.markdown("""
         backdrop-filter: blur(8px);
     }
     
-    /* Dictionary Entry Card Design */
+    /* Dictionary & Manual Card Design */
     .dict-card {
         background: rgba(26, 26, 46, 0.5);
         border: 1px solid rgba(99, 102, 241, 0.15);
@@ -101,13 +101,6 @@ st.markdown("""
         margin-bottom: 1rem;
     }
     
-    /* Control Form Elements and Tables Typography */
-    div[data-testid="stSelectbox"] div[data-baseweb="select"] {
-        background-color: #141423 !important;
-        border: 1px solid rgba(99, 102, 241, 0.2) !important;
-        border-radius: 8px !important;
-    }
-    
     .stDataFrame {
         border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 8px;
@@ -124,7 +117,7 @@ def toggle_favorite(item: str):
         st.session_state.favorites.add(item)
 
 # ==========================================
-# 2. DATA ASSETS & EXTENDED FORMULA DICTIONARY
+# 2. DATA ASSETS & FORMULA DICTIONARY
 # ==========================================
 FORMULA_DB = {
     "Algebra": {
@@ -145,7 +138,6 @@ FORMULA_DB = {
     }
 }
 
-# Mathematics Dictionary
 DICT_DB = {
     "Arithmetic Progression (AP)": {
         "def": "A sequence of numbers in which the difference between consecutive terms is constant.",
@@ -176,11 +168,11 @@ DICT_DB = {
         "formula": "$$S_n = \\frac{a(1 - r^n)}{1 - r} \\quad (r \\neq 1)$$"
     },
     "Laplace Transform": {
-        "def": "An integral transform that converts a function of a real variable (often time) to a function of a complex variable (complex frequency).",
+        "def": "An integral transform that converts a function of a real variable to a function of a complex variable.",
         "formula": "$$\\mathcal{L}\\{f(t)\\} = \\int_{0}^{\\infty} e^{-st} f(t) \\, dt$$"
     },
     "Matrix Determinant (2x2)": {
-        "def": "A scalar value computed from the elements of a square matrix that encodes specific geometric properties of the linear transformation.",
+        "def": "A scalar value computed from the elements of a square matrix that encodes specific geometric properties.",
         "formula": "$$\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = ad - bc$$"
     },
     "Normal Distribution PDF": {
@@ -218,7 +210,7 @@ with st.sidebar:
     st.markdown("<p style='color: #64748B; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom: 0.3rem;'>Navigation Matrix</p>", unsafe_allow_html=True)
     page = st.selectbox(
         "Workspace Viewport selector",
-        ["🏠 Home Dashboard", "⚡ Differentiation Solver", "integral_view", "📐 Trig Table Generator", "Advanced Geometry", "📚 Formula Library", "📖 Dictionary", 
+        ["🏠 Home Dashboard", "📖 User & Input Guide Manual", "⚡ Differentiation Solver", "integral_view", "📐 Trig Table Generator", "Advanced Geometry", "📚 Formula Library", "📖 Dictionary", 
          "📈 Graphing Tool", "📊 Statistics Calc", "🔢 Matrix Calc", "🔄 Unit Converter", "🎯 Practice Zone"],
         label_visibility="collapsed"
     )
@@ -300,14 +292,52 @@ if page == "🏠 Home Dashboard":
             </div>
         """, unsafe_allow_html=True)
 
-# --- WORKSPACE: DIFFERENTIATION SOLVER (REAL TEXTBOOK DISPLAY UPDATE) ---
+# --- NEW WORKSPACE: USER & INPUT GUIDE MANUAL ---
+elif page == "📖 User & Input Guide Manual":
+    st.title("📖 MathLab Pro Operational System Manual")
+    st.write("Welcome to the complete guide on how to input syntax and navigate specific engine calculation workspaces safely.")
+    
+    st.markdown("### 1. Functional Syntax Rules (Calculus & Graphing Engine)")
+    st.write("For **Differentiation**, **Integration**, and the **Graphing Plot Engine**, input expressions must use correct computational coding syntax. The *Live Real Display Preview Panel* will immediately convert your input into standard notation.")
+    
+    # Syntactical cheat sheet mapping table
+    syntax_data = {
+        "Mathematical Operation": ["Multiplication", "Power / Exponentiation", "Fractional Division", "Sine Function", "Exponential Constant", "Square Root Function"],
+        "Correct Input Code Syntax": ["a * x", "x ** 3", "1 / (x + 1)", "sin(x)", "exp(x)", "sqrt(x)"],
+        "Real-Display Rendering Look": ["$$a \\cdot x$$", "$$x^3$$", "$$\\frac{1}{x+1}$$", "$$\\sin(x)$$", "$$e^x$$", "$$\\sqrt{x}$$"]
+    }
+    st.table(pd.DataFrame(syntax_data))
+    
+    st.markdown("### 2. Workspace Instruction Procedures")
+    
+    with st.expander("⚡ Differentiation & Integration Solvers", expanded=True):
+        st.markdown("""
+        - **Step 1:** Input your function equation using the variables rule table above.
+        - **Step 2:** Watch the **Live Real Display Math Preview Panel** confirm that the software understands your input correctly.
+        - **Step 3:** For derivatives, pick your targeted order calculation iteration limit ($1^{st}$ to $5^{th}$). For integrations, select either **Indefinite Primitive** or assign a bounding area sequence by defining constraints ($a$) and ($b$).
+        - **Step 4:** Click the execution submit button to compute.
+        """)
+        
+    with st.expander("📐 Trigonometric Table Array Matrix", expanded=False):
+        st.markdown("""
+        - Toggle your baseline angular standard dimension unit selection scale between **Degrees** or **Radians**.
+        - Modify the incremental execution frequency step bound size to space out measurements.
+        - Set your chosen float decimal fraction rounding cutoff. You can easily download the resulting table array as a `.csv` matrix database block anytime.
+        """)
+        
+    with st.expander("📊 Statistics & Matrix Calculators", expanded=False):
+        st.markdown("""
+        - **Statistics Core:** Enter continuous numerical variables split cleanly by spaces and commas (e.g., `10, 15, 20`). Avoid characters or letters inside this sequence window.
+        - **Linear Algebra Core:** Fill out the custom grid blocks to construct a 2x2 multi-dimensional vector array matrix. The system instantly returns structural determinant values and inverse array mappings.
+        """)
+
+# --- WORKSPACE: DIFFERENTIATION SOLVER ---
 elif page == "⚡ Differentiation Solver":
     st.title("⚡ Symbolic Differentiation Engine")
     st.write("Compute exact analytical derivatives. Code notation shortcuts are evaluated instantly into standard display formatting.")
     
     diff_expr_str = st.text_input("Enter Function Equation Expression f(x):", "x**3 - 5*x**2 + 2*x - 10")
     
-    # Live Real Display Input Monitor Viewboard Panel
     st.markdown("<p style='font-size:0.85rem; color:#818CF8; margin-bottom:2px; font-weight:600;'>✨ Live Real Display Math Preview Panel:</p>", unsafe_allow_html=True)
     try:
         x = sp.symbols('x')
@@ -323,7 +353,6 @@ elif page == "⚡ Differentiation Solver":
     if st.button("Execute Symbolic Differentiation", type="primary"):
         try:
             derived_sol = sp.diff(parsed_live, x, order_val)
-            
             st.markdown("---")
             st.markdown("### 📋 Final Calculated Workspace Matrix")
             
@@ -340,7 +369,6 @@ elif page == "⚡ Differentiation Solver":
                 else:
                     st.latex(f"\\frac{{d^{order_val}}}{{dx^{order_val}}} f(x) = {sp.latex(derived_sol)}")
             
-            # Interactive point evaluation module addition
             st.markdown("---")
             st.subheader("📍 Target Coordinate Gradient Evaluator")
             eval_pt = st.number_input("Evaluate Target Axis Point location ($x_0$):", value=2.0)
@@ -349,7 +377,7 @@ elif page == "⚡ Differentiation Solver":
         except Exception as e:
             st.error(f"Symbolic evaluation compilation processing error: {e}")
 
-# --- INTEGRATION SOLVER (REAL TEXTBOOK DISPLAY UPDATE) ---
+# --- INTEGRATION SOLVER ---
 elif page == "integral_view":
     st.title("🔗 Analytical Integration Modeling Studio")
     st.write("Resolve exact symbolic primitives or map computational bounding regions via integration display frameworks.")
@@ -357,7 +385,6 @@ elif page == "integral_view":
     int_type = st.radio("Integration Operational Framework Type:", ["Indefinite Calculus", "Definite Calculus Boundary Matrix"])
     int_expr_str = st.text_input("Enter Integrand Function Expression f(x):", "3*x**2 + 2*x")
     
-    # Live Real Display Preview Panel
     st.markdown("<p style='font-size:0.85rem; color:#818CF8; margin-bottom:2px; font-weight:600;'>✨ Live Real Display Math Preview Panel:</p>", unsafe_allow_html=True)
     try:
         x = sp.symbols('x')
@@ -393,40 +420,6 @@ elif page == "integral_view":
                 st.latex(f"\\int_{{{lower_bound}}}^{{{upper_bound}}} \\left({sp.latex(parsed_int_expr)}\\right) dx = {float(sol_def_int.evalf()):.5f}")
     except Exception as e:
         st.error(f"Integration Engine parse error: {e}")
-
-# --- EXPANDED DICTIONARY COMPONENT ---
-elif page == "📖 Dictionary":
-    st.title("📖 Comprehensive Mathematical Formula Dictionary")
-    st.write("Browse structured analytical concepts paired with mathematical identities and formulas.")
-    
-    search_d = st.text_input("🔍 Search term, keyword, or system theorem formula component:", "")
-    
-    st.markdown("<br>", unsafe_allow_html=True)
-    
-    found_any = False
-    for term, data in DICT_DB.items():
-        if search_d.lower() in term.lower() or search_d.lower() in data["def"].lower():
-            found_any = True
-            
-            st.markdown(f"""
-                <div class="dict-card">
-                    <h3 style="color: #818CF8; margin: 0 0 0.5rem 0; font-size: 1.4rem;">{term}</h3>
-                    <p style="color: #E2E8F0; font-size: 1rem; line-height: 1.6; margin-bottom: 1rem;">{data['def']}</p>
-                </div>
-            """, unsafe_allow_html=True)
-            
-            st.markdown("**Governing Formula Identity:**")
-            st.markdown(data["formula"])
-            
-            fav_label = "⭐ Bookmarked" if term in st.session_state.favorites else "☆ Add to Bookmark Stack"
-            if st.button(fav_label, key=f"dict_fav_{term}"):
-                toggle_favorite(term)
-                st.rerun()
-                
-            st.markdown("<div style='margin-bottom: 2rem;'></div>", unsafe_allow_html=True)
-            
-    if not found_any:
-        st.info("No matching mathematical terminology located in the local index.")
 
 # --- TRIGONOMETRIC TABLE GENERATOR ---
 elif page == "📐 Trig Table Generator":
@@ -507,6 +500,40 @@ elif page == "📚 Formula Library":
                         if st.button(fav_label, key=f"f_{name}"):
                             toggle_favorite(name)
                             st.rerun()
+
+# --- DICTIONARY ---
+elif page == "📖 Dictionary":
+    st.title("📖 Comprehensive Mathematical Formula Dictionary")
+    st.write("Browse structured analytical concepts paired with mathematical identities and formulas.")
+    
+    search_d = st.text_input("🔍 Search term, keyword, or system theorem formula component:", "")
+    
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    found_any = False
+    for term, data in DICT_DB.items():
+        if search_d.lower() in term.lower() or search_d.lower() in data["def"].lower():
+            found_any = True
+            
+            st.markdown(f"""
+                <div class="dict-card">
+                    <h3 style="color: #818CF8; margin: 0 0 0.5rem 0; font-size: 1.4rem;">{term}</h3>
+                    <p style="color: #E2E8F0; font-size: 1rem; line-height: 1.6; margin-bottom: 1rem;">{data['def']}</p>
+                </div>
+            """, unsafe_allow_html=True)
+            
+            st.markdown("**Governing Formula Identity:**")
+            st.markdown(data["formula"])
+            
+            fav_label = "⭐ Bookmarked" if term in st.session_state.favorites else "☆ Add to Bookmark Stack"
+            if st.button(fav_label, key=f"dict_fav_{term}"):
+                toggle_favorite(term)
+                st.rerun()
+                
+            st.markdown("<div style='margin-bottom: 2rem;'></div>", unsafe_allow_html=True)
+            
+    if not found_any:
+        st.info("No matching mathematical terminology located in the local index.")
 
 # --- GRAPHING TOOL ---
 elif page == "📈 Graphing Tool":
