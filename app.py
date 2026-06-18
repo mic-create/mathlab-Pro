@@ -29,81 +29,86 @@ if 'quiz_current' not in st.session_state:
 if 'system_kernel_status' not in st.session_state:
     st.session_state.system_kernel_status = "ONLINE"
 
-# Custom CSS for Sleek Glassmorphic Sidebar, Background Wallpaper & Typography
+# Advanced CSS Injection for a Premium Digital Lab Environment
 st.markdown("""
     <style>
-    /* Global App Wallpaper Background Injection */
+    /* Global Background Accent Framework */
     .stApp {
-        background: linear-gradient(rgba(10, 10, 18, 0.92), rgba(10, 10, 18, 0.96)), 
+        background: linear-gradient(rgba(10, 10, 20, 0.94), rgba(12, 12, 24, 0.97)), 
                     url("app/static/My Logo.png") no-repeat center center fixed;
         background-size: cover !important;
     }
     
     .main .block-container { padding-top: 1.5rem; }
     
-    /* Advanced Ultra-Sophisticated Sidebar Styling */
+    /* Sidebar Aesthetics */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, rgba(16, 16, 28, 0.98) 0%, rgba(10, 10, 16, 1) 100%) !important;
-        border-right: 1px solid rgba(99, 102, 241, 0.2);
-        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+        background: linear-gradient(180deg, rgba(14, 14, 26, 0.98) 0%, rgba(8, 8, 16, 1) 100%) !important;
+        border-right: 1px solid rgba(99, 102, 241, 0.25);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.6);
     }
     
-    /* Custom Decorative Header Container inside Sidebar */
+    /* Branding Header Card */
     .sidebar-brand-box {
-        background: linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%);
-        border: 1px solid rgba(99, 102, 241, 0.25);
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.18) 0%, rgba(59, 130, 246, 0.06) 100%);
+        border: 1px solid rgba(99, 102, 241, 0.3);
         padding: 1.2rem;
-        border-radius: 12px;
+        border-radius: 14px;
         margin-bottom: 1.5rem;
         text-align: center;
     }
     
-    /* Custom Sidebar Metrics Panel */
+    /* Status Micro-Pill */
     .sidebar-status-pill {
         display: inline-block;
         background: rgba(16, 185, 129, 0.15);
         color: #10B981;
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-weight: 700;
         padding: 0.2rem 0.6rem;
         border-radius: 20px;
         border: 1px solid rgba(16, 185, 129, 0.3);
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.06em;
     }
     
-    /* Formatted Content Cards */
+    /* Sophisticated UI Container Cards */
     .metric-card {
-        background: rgba(22, 22, 38, 0.7); 
-        border-radius: 12px; 
-        padding: 1.2rem;
-        border: 1px solid rgba(255, 255, 255, 0.05); 
-        backdrop-filter: blur(8px);
-    }
-    
-    /* Dictionary & Manual Card Design */
-    .dict-card {
-        background: rgba(26, 26, 46, 0.5);
-        border: 1px solid rgba(99, 102, 241, 0.15);
-        border-radius: 10px;
+        background: rgba(20, 20, 38, 0.65); 
+        border-radius: 14px; 
         padding: 1.5rem;
+        border: 1px solid rgba(99, 102, 241, 0.15); 
+        backdrop-filter: blur(12px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         margin-bottom: 1rem;
-        backdrop-filter: blur(4px);
     }
     
-    /* Real Display Latex Live Viewboard Wrapper */
+    /* Document/Dictionary Item Cards */
+    .dict-card {
+        background: rgba(24, 24, 48, 0.5);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        border-radius: 12px;
+        padding: 1.6rem;
+        margin-bottom: 1.2rem;
+        backdrop-filter: blur(6px);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+    
+    /* Interactive Live Textbook Preview Shield */
     .real-display-panel {
-        background: rgba(14, 14, 28, 0.8);
+        background: rgba(12, 12, 24, 0.85);
         border-left: 4px solid #6366F1;
-        padding: 1rem;
-        border-radius: 0 8px 8px 0;
-        margin-top: 0.5rem;
-        margin-bottom: 1rem;
+        padding: 1.2rem;
+        border-radius: 4px 12px 12px 4px;
+        margin-top: 0.6rem;
+        margin-bottom: 1.2rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     
+    /* Frame Tables Content Wrap */
     .stDataFrame {
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
         overflow: hidden;
     }
     </style>
@@ -117,148 +122,130 @@ def toggle_favorite(item: str):
         st.session_state.favorites.add(item)
 
 # ==========================================
-# 2. DATA ASSETS & FORMULA DICTIONARY
+# 2. DATA ASSETS & FORMULA INDEX
 # ==========================================
 FORMULA_DB = {
-    "Algebra": {
-        "Quadratic Formula": "$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$",
-        "Binomial Theorem": "$$(a+b)^n = \\sum_{k=0}^n \\binom{n}{k} a^{n-k}b^k$$"
+    "Algebraic Structures": {
+        "Quadratic Formula Identity": "$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$",
+        "Generalized Binomial Theorem": "$$(a+b)^n = \\sum_{k=0}^n \\binom{n}{k} a^{n-k}b^k$$"
     },
-    "Geometry": {
-        "Area of Circle": "$$A = \\pi r^2$$",
-        "Pythagorean Theorem": "$$a^2 + b^2 = c^2$$"
+    "Differential & Spatial Geometry": {
+        "Area Boundary of a Circle": "$$A = \\pi r^2$$",
+        "Classic Pythagorean Theorem": "$$a^2 + b^2 = c^2$$"
     },
-    "Trigonometry": {
-        "Pythagorean Identity": "$$\\sin^2(\\theta) + \\cos^2(\\theta) = 1$$",
-        "Double Angle Sine": "$$\\sin(2\\theta) = 2\\sin(\\theta)\\cos(\\theta)$$"
+    "Trigonometric Analysis": {
+        "Pythagorean Angular Identity": "$$\\sin^2(\\theta) + \\cos^2(\\theta) = 1$$",
+        "Double Angle Sine Reduction": "$$\\sin(2\\theta) = 2\\sin(\\theta)\\cos(\\theta)$$"
     },
-    "Calculus": {
-        "Fundamental Theorem": "$$\\int_a^b f(x) dx = F(b) - F(a)$$",
-        "Derivative Definition": "$$f'(x) = \\lim_{h \\to 0} \\frac{f(x+h)-f(x)}{h}$$"
+    "Infinitesimal Calculus Core": {
+        "Fundamental Theorem of Calculus": "$$\\int_a^b f(x) dx = F(b) - F(a)$$",
+        "Derivative from First Principles Limit": "$$f'(x) = \\lim_{h \\to 0} \\frac{f(x+h)-f(x)}{h}$$"
     }
 }
 
 DICT_DB = {
     "Arithmetic Progression (AP)": {
-        "def": "A sequence of numbers in which the difference between consecutive terms is constant.",
+        "def": "A sequential mathematical progression of values where the incremental step difference between neighboring terms remains strictly constant.",
         "formula": "$$a_n = a_1 + (n - 1)d$$"
     },
     "Bayes' Theorem": {
-        "def": "A mathematical formula used to determine the conditional probability of an event based on prior knowledge of conditions related to the event.",
+        "def": "A probability identity that quantifies conditional state probabilities based on relevant prior information parameters.",
         "formula": "$$P(A|B) = \\frac{P(B|A) \\cdot P(A)}{P(B)}$$"
     },
     "Binomial Coefficient": {
-        "def": "The number of ways to choose a subset of k elements from a fixed set of n elements.",
+        "def": "The structural combination counting factor used to choose subset groups of k elements from an n size set collection.",
         "formula": "$$\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$$"
     },
     "Derivative (First Principles)": {
-        "def": "The rate of change of a function with respect to a variable, derived as the limiting value of a difference quotient.",
+        "def": "The limiting slope rate value mapping the dynamic variation change of functional coordinates across infintesimal spans.",
         "formula": "$$f'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}$$"
     },
     "Euler's Identity": {
-        "def": "A remarkable equation in mathematical analysis considered an exemplar of mathematical beauty, linking five fundamental mathematical constants.",
+        "def": "A famous transcendental system benchmark statement combining five foundational constants of analytical computation.",
         "formula": "$$e^{i\\pi} + 1 = 0$$"
     },
     "Fourier Series Expansion": {
-        "def": "An expansion of a periodic function into a sum of sines and cosines.",
+        "def": "The breakdown orchestration mapping cyclic wave functions into sum series coordinates of sines and cosines.",
         "formula": "$$f(x) = \\frac{a_0}{2} + \\sum_{n=1}^{\\infty} \\left[ a_n \\cos(nx) + b_n \\sin(nx) \\right]$$"
     },
     "Geometric Progression (GP) Sum": {
-        "def": "The sum of a sequence where each term after the first is found by multiplying the previous one by a fixed, non-zero number (common ratio).",
+        "def": "The calculated total accumulation aggregation of values structured around consistent geometric step scales.",
         "formula": "$$S_n = \\frac{a(1 - r^n)}{1 - r} \\quad (r \\neq 1)$$"
     },
     "Laplace Transform": {
-        "def": "An integral transform that converts a function of a real variable to a function of a complex variable.",
+        "def": "An operator conversion equation modifying continuous temporal systems into functional complex space coordinates.",
         "formula": "$$\\mathcal{L}\\{f(t)\\} = \\int_{0}^{\\infty} e^{-st} f(t) \\, dt$$"
     },
     "Matrix Determinant (2x2)": {
-        "def": "A scalar value computed from the elements of a square matrix that encodes specific geometric properties.",
+        "def": "The scale coefficient factor characterizing structural multi-dimensional array mapping bounds.",
         "formula": "$$\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = ad - bc$$"
     },
     "Normal Distribution PDF": {
-        "def": "The continuous probability distribution defined by its bell-shaped curve symmetry centered around the mean parameter.",
+        "def": "The classic continuous bell curve probability density density equation mapped across standard standard variance indicators.",
         "formula": "$$f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{1}{2}\\left(\\frac{x-\\mu}{\\sigma}\\right)^2}$$"
-    },
-    "Pythagorean Trigonometric Identity": {
-        "def": "The fundamental relation expressing the Pythagorean theorem in terms of trigonometric functions.",
-        "formula": "$$\\sin^2(\\theta) + \\cos^2(\\theta) = 1$$"
-    },
-    "Taylor Series expansion": {
-        "def": "A representation of a function as an infinite sum of terms calculated from the values of its derivatives at a single point.",
-        "formula": "$$f(x) = \\sum_{n=0}^{\\infty} \\frac{f^{(n)}(a)}{n!} (x-a)^n$$"
     }
 }
 
 # ==========================================
-# 3. HIGHLY SOPHISTICATED SIDEBAR WORKSPACE
+# 3. SIDEBAR NAVIGATION CONTROLLER
 # ==========================================
 with st.sidebar:
-    # Top Level Interactive Header Branding Container
     st.markdown("""
         <div class="sidebar-brand-box">
-            <h3 style="color: #F8FAFC; margin: 0; font-size: 1.4rem; font-weight: 800;">MATHLAB <span style="color:#6366F1;">PRO</span></h3>
-            <p style="color: #94A3B8; margin: 0.2rem 0 0.6rem 0; font-size: 0.8rem;">Computational Engine v3.0</p>
-            <div class="sidebar-status-pill">● Engine Live</div>
+            <h3 style="color: #F8FAFC; margin: 0; font-size: 1.4rem; font-weight: 800; letter-spacing: 0.05em;">MATHLAB <span style="color:#6366F1;">PRO</span></h3>
+            <p style="color: #94A3B8; margin: 0.2rem 0 0.6rem 0; font-size: 0.78rem;">Quantum Architecture Environment</p>
+            <div class="sidebar-status-pill">● System Matrix Active</div>
         </div>
     """, unsafe_allow_html=True)
     
-    try:
-        st.image("My Logo.png", use_container_width=True)
-    except Exception:
-        pass
-        
-    st.markdown("<p style='color: #64748B; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom: 0.3rem;'>Navigation Matrix</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #64748B; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom: 0.4rem;'>Nav Matrix</p>", unsafe_allow_html=True)
     page = st.selectbox(
-        "Workspace Viewport selector",
-        ["🏠 Home Dashboard", "📖 User & Input Guide Manual", "⚡ Differentiation Solver", "integral_view", "📐 Trig Table Generator", "Advanced Geometry", "📚 Formula Library", "📖 Dictionary", 
-         "📈 Graphing Tool", "📊 Statistics Calc", "🔢 Matrix Calc", "🔄 Unit Converter", "🎯 Practice Zone"],
+        "Navigation Select",
+        ["🏠 Dashboard Matrix", "📖 Operational System Manual", "⚡ Derivative Vector Engine", "🔗 Definite Integration Core", "📐 High-Precision Trig Array", "💎 Spatial Solid Dimensions", "📚 Formula Reference Matrix", "📖 Lexicon Dictionary", 
+         "📈 Visual Graph Matrix", "📊 Dataset Analytical Core", "🔢 Matrix Vector Solver", "🔄 Metric Transformation Shield", "🎯 Operational Practice Arena"],
         label_visibility="collapsed"
     )
     
     st.markdown("---")
     
-    # System Hardware/Kernel Status Diagnostics Controller Panel
-    with st.expander("🛠️ System Diagnostics", expanded=False):
-        st.caption("Computational Kernel Status")
-        if st.checkbox("Toggle Engine Override Mode", value=False):
+    with st.expander("🛠️ Kernel Configuration", expanded=False):
+        if st.checkbox("Override Standard Computing Stack", value=False):
             st.session_state.system_kernel_status = "OVERRIDE"
-            st.warning("Kernel running in experimental bypass.")
+            st.warning("Kernel executing via bypass track.")
         else:
             st.session_state.system_kernel_status = "ONLINE"
-        st.write(f"Active Port State: `CPU-THREAD-LIVE`")
-        st.write(f"Workspace Mode: `{st.session_state.system_kernel_status}`")
+        st.caption(f"Port Execution Vector: `CPU-THREAD-ACTIVE`")
+        st.caption(f"Kernel Profile State: `{st.session_state.system_kernel_status}`")
         
-    # Real-time Session Activity Metrics Tracker
-    with st.expander("📊 Runtime Analytics", expanded=False):
-        st.metric("Logged Operations", f"{len(st.session_state.history)} entries")
-        st.metric("Total Favorites", f"{len(st.session_state.favorites)} bookmarked")
-        if st.button("Purge Temporary Volatile Memory"):
+    with st.expander("📊 Volatile Analytics Tracker", expanded=False):
+        st.metric("Operations Logged", f"{len(st.session_state.history)} entries")
+        st.metric("Active Bookmarks", f"{len(st.session_state.favorites)} items")
+        if st.button("Purge Array Frame Memory Cache"):
             st.session_state.history = []
             st.rerun()
 
-    # Elegant Bookmark Registry Viewport
-    st.markdown("### ⭐ Active Bookmarks")
+    st.markdown("### ⭐ Tracked Flag Stack")
     if st.session_state.favorites:
         for fav in st.session_state.favorites:
-            st.markdown(f"<code style='color:#818CF8; background:rgba(129,140,248,0.1); padding:2px 6px; border-radius:4px; font-size:0.8rem;'>{fav}</code>", unsafe_allow_html=True)
+            st.markdown(f"<code style='color:#818CF8; background:rgba(129,140,248,0.1); padding:3px 8px; border-radius:6px; font-size:0.78rem; display:inline-block; margin:2px;'>{fav}</code>", unsafe_allow_html=True)
     else:
-        st.caption("No operational definitions flagged inside lookup stack.")
+        st.caption("No markers active inside lookup tracks.")
 
 # ==========================================
-# 4. PRIMARY VIEWPORT SUBSYSTEMS
+# 4. ARCHITECTURAL INTERACTIVE WORKSPACES
 # ==========================================
 
-# --- HOME DASHBOARD ---
-if page == "🏠 Home Dashboard":
+# --- DASHBOARD MATRIX ---
+if page == "🏠 Dashboard Matrix":
     st.markdown("""
-        <div style="background: linear-gradient(135deg, rgba(30, 27, 75, 0.6) 0%, rgba(15, 23, 42, 0.7) 100%); 
-                    padding: 2.2rem; border-radius: 16px; border: 1px solid rgba(99, 102, 241, 0.2); 
-                    margin-bottom: 2rem; backdrop-filter: blur(10px);">
-            <h1 style="color: #F8FAFC; margin: 0; font-size: 2.6rem; font-weight: 800; letter-spacing: -0.025em;">
-                Welcome to MathLab <span style="background: linear-gradient(90deg, #6366F1, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pro v3.0</span>
+        <div style="background: linear-gradient(135deg, rgba(24, 24, 48, 0.7) 0%, rgba(12, 12, 24, 0.9) 100%); 
+                    padding: 2.5rem; border-radius: 16px; border: 1px solid rgba(99, 102, 241, 0.25); 
+                    margin-bottom: 2rem; backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
+            <h1 style="color: #F8FAFC; margin: 0; font-size: 2.8rem; font-weight: 800; letter-spacing: -0.03em;">
+                Analytical Laboratory <span style="background: linear-gradient(90deg, #6366F1, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pro v3.0</span>
             </h1>
-            <p style="color: #94A3B8; margin: 0.6rem 0 0 0; font-size: 1.1rem; max-width: 700px; line-height: 1.6;">
-                An integrated analytical development environment specialized in symbolic calculus transformations, advanced spatial geometric coordinates, and numeric matrix mapping.
+            <p style="color: #94A3B8; margin: 0.8rem 0 0 0; font-size: 1.15rem; max-width: 800px; line-height: 1.6;">
+                An enterprise-tier computing workspace engineered for clean symbolic calculus parsing, high-precision geometry matrix arrays, and fluid structural dataset evaluation.
             </p>
         </div>
     """, unsafe_allow_html=True)
@@ -267,172 +254,173 @@ if page == "🏠 Home Dashboard":
     with col1:
         st.markdown("""
             <div class='metric-card'>
-                <h4 style='color: #6366F1; margin-top:0;'>⚡ High-Speed Calculus</h4>
-                <p style='color: #94A3B8; font-size:0.9rem; line-height:1.5; margin-bottom:0;'>
-                    Execute direct integration transformations or differentiation limits symbolically with instant SymPy computation chains.
+                <h4 style='color: #6366F1; margin-top:0; font-weight:700;'>⚡ Symbolic Calculus Core</h4>
+                <p style='color: #94A3B8; font-size:0.92rem; line-height:1.6; margin-bottom:0;'>
+                    Execute exact derivation sequences and definitive area boundaries under real-time textbook formula compilation views.
                 </p>
             </div>
         """, unsafe_allow_html=True)
     with col2:
         st.markdown("""
             <div class='metric-card'>
-                <h4 style='color: #34D399; margin-top:0;'>📐 Advanced Geometry</h4>
-                <p style='color: #94A3B8; font-size:0.9rem; line-height:1.5; margin-bottom:0;'>
-                    Analyze complex multidimensional solids including spheres, cones, and composite parameters instantly with absolute accuracy.
+                <h4 style='color: #10B981; margin-top:0; font-weight:700;'>📐 Spatial Form Arrays</h4>
+                <p style='color: #94A3B8; font-size:0.92rem; line-height:1.6; margin-bottom:0;'>
+                    Model and measure structural parameters for intricate volumetric spaces, spheres, cones, and vector bounds dynamically.
                 </p>
             </div>
         """, unsafe_allow_html=True)
     with col3:
         st.markdown("""
             <div class='metric-card'>
-                <h4 style='color: #3B82F6; margin-top:0;'>📖 Formula Dictionary</h4>
-                <p style='color: #94A3B8; font-size:0.9rem; line-height:1.5; margin-bottom:0;'>
-                    Browse mathematical theorems paired directly with interactive equations and definitions.
+                <h4 style='color: #3B82F6; margin-top:0; font-weight:700;'>📚 Structural Dictionary</h4>
+                <p style='color: #94A3B8; font-size:0.92rem; line-height:1.6; margin-bottom:0;'>
+                    Navigate complex mathematical terminology connected seamlessly with verified academic definitions and clean equation templates.
                 </p>
             </div>
         """, unsafe_allow_html=True)
 
-# --- NEW WORKSPACE: USER & INPUT GUIDE MANUAL ---
-elif page == "📖 User & Input Guide Manual":
-    st.title("📖 MathLab Pro Operational System Manual")
-    st.write("Welcome to the complete guide on how to input syntax and navigate specific engine calculation workspaces safely.")
+# --- SYSTEM MANUAL WORKSPACE ---
+elif page == "📖 Operational System Manual":
+    st.markdown("""
+        <div class="metric-card" style="border-left: 4px solid #3B82F6;">
+            <h2 style="color:#F8FAFC; margin-top:0;">📖 System Operational Matrix Manual</h2>
+            <p style="color:#94A3B8;">Guidelines detailing data entry standards for running accurate analytical calculations.</p>
+        </div>
+    """, unsafe_allow_html=True)
     
-    st.markdown("### 1. Functional Syntax Rules (Calculus & Graphing Engine)")
-    st.write("For **Differentiation**, **Integration**, and the **Graphing Plot Engine**, input expressions must use correct computational coding syntax. The *Live Real Display Preview Panel* will immediately convert your input into standard notation.")
-    
-    # Syntactical cheat sheet mapping table
-    syntax_data = {
-        "Mathematical Operation": ["Multiplication", "Power / Exponentiation", "Fractional Division", "Sine Function", "Exponential Constant", "Square Root Function"],
-        "Correct Input Code Syntax": ["a * x", "x ** 3", "1 / (x + 1)", "sin(x)", "exp(x)", "sqrt(x)"],
-        "Real-Display Rendering Look": ["$$a \\cdot x$$", "$$x^3$$", "$$\\frac{1}{x+1}$$", "$$\\sin(x)$$", "$$e^x$$", "$$\\sqrt{x}$$"]
-    }
-    st.table(pd.DataFrame(syntax_data))
-    
-    st.markdown("### 2. Workspace Instruction Procedures")
-    
-    with st.expander("⚡ Differentiation & Integration Solvers", expanded=True):
-        st.markdown("""
-        - **Step 1:** Input your function equation using the variables rule table above.
-        - **Step 2:** Watch the **Live Real Display Math Preview Panel** confirm that the software understands your input correctly.
-        - **Step 3:** For derivatives, pick your targeted order calculation iteration limit ($1^{st}$ to $5^{th}$). For integrations, select either **Indefinite Primitive** or assign a bounding area sequence by defining constraints ($a$) and ($b$).
-        - **Step 4:** Click the execution submit button to compute.
-        """)
+    col_m1, col_m2 = st.columns([3, 2])
+    with col_m1:
+        st.markdown("### 🔣 Calculus & Equation Plot Input Rules")
+        st.write("When operating the **Derivative Vector Engine**, **Definite Integration Core**, or **Visual Graph Matrix**, mathematical entry sequences must conform to standard computational operators. The system converts raw expressions instantly into beautiful textbook styles.")
         
-    with st.expander("📐 Trigonometric Table Array Matrix", expanded=False):
-        st.markdown("""
-        - Toggle your baseline angular standard dimension unit selection scale between **Degrees** or **Radians**.
-        - Modify the incremental execution frequency step bound size to space out measurements.
-        - Set your chosen float decimal fraction rounding cutoff. You can easily download the resulting table array as a `.csv` matrix database block anytime.
-        """)
+        syntax_df = pd.DataFrame({
+            "Mathematical Matrix Target": ["Multiplication Scale", "Exponentiation / Power", "Rational Division", "Sine Wave Form", "Exponential E Base", "Square Root Base"],
+            "Functional Input Code Syntax": ["a * x", "x ** 4", "2 / (x + 3)", "sin(x)", "exp(x)", "sqrt(x)"],
+            "System Rendering Display Look": ["$$a \\cdot x$$", "$$x^4$$", "$$\\frac{2}{x+3}$$", "$$\\sin(x)$$", "$$e^x$$", "$$\\sqrt{x}$$"]
+        })
+        st.table(syntax_df)
         
-    with st.expander("📊 Statistics & Matrix Calculators", expanded=False):
-        st.markdown("""
-        - **Statistics Core:** Enter continuous numerical variables split cleanly by spaces and commas (e.g., `10, 15, 20`). Avoid characters or letters inside this sequence window.
-        - **Linear Algebra Core:** Fill out the custom grid blocks to construct a 2x2 multi-dimensional vector array matrix. The system instantly returns structural determinant values and inverse array mappings.
-        """)
+    with col_m2:
+        st.markdown("### 📋 Section Operational Directives")
+        with st.expander("⚡ Calculus Core Solvers", expanded=True):
+            st.caption("1. Input function code strings based on the rules grid table.\n2. Observe the real-display live tracking board view to confirm expression design.\n3. Identify evaluation target parameters and execute calculation steps.")
+        with st.expander("📐 Data Matrices & Data Arrays", expanded=False):
+            st.caption("1. Provide clean numerical inputs separated accurately by commas for statistical distributions.\n2. When configuring multidimensional solid volumes, confirm parameter boundaries are above 0 threshold values.")
 
-# --- WORKSPACE: DIFFERENTIATION SOLVER ---
-elif page == "⚡ Differentiation Solver":
-    st.title("⚡ Symbolic Differentiation Engine")
-    st.write("Compute exact analytical derivatives. Code notation shortcuts are evaluated instantly into standard display formatting.")
+# --- DERIVATIVE ENGINE ---
+elif page == "⚡ Derivative Vector Engine":
+    st.markdown("<div class='metric-card'><h2>⚡ Symbolic Derivative Vector Engine</h2><p style='color:#94A3B8;'>Compute exact expressions and differential gradients through live textbook display updates.</p></div>", unsafe_allow_html=True)
     
-    diff_expr_str = st.text_input("Enter Function Equation Expression f(x):", "x**3 - 5*x**2 + 2*x - 10")
+    col_d1, col_d2 = st.columns([2, 2])
+    with col_d1:
+        diff_expr_str = st.text_input("Assign Target Expression Function f(x):", "x**3 - 4*x**2 + 5*x - 12")
+        order_val = st.number_input("Derivative Order Sequence Level ($n$-th order)", min_value=1, max_value=5, value=1)
     
-    st.markdown("<p style='font-size:0.85rem; color:#818CF8; margin-bottom:2px; font-weight:600;'>✨ Live Real Display Math Preview Panel:</p>", unsafe_allow_html=True)
-    try:
-        x = sp.symbols('x')
-        parsed_live = sp.sympify(diff_expr_str)
-        st.markdown('<div class="real-display-panel">', unsafe_allow_html=True)
-        st.latex(f"f(x) = {sp.latex(parsed_live)}")
-        st.markdown('</div>', unsafe_allow_html=True)
-    except Exception:
-        st.caption("(Waiting for valid expression sequence syntax entry...)")
-
-    order_val = st.number_input("Derivative Order Sequence Iteration ($n$-th derivative)", min_value=1, max_value=5, value=1)
-    
-    if st.button("Execute Symbolic Differentiation", type="primary"):
+    with col_d2:
+        st.markdown("<p style='font-size:0.85rem; color:#818CF8; margin-bottom:2px; font-weight:600;'>✨ Live Real Display Math Preview Panel:</p>", unsafe_allow_html=True)
+        try:
+            x = sp.symbols('x')
+            parsed_live = sp.sympify(diff_expr_str)
+            st.markdown('<div class="real-display-panel">', unsafe_allow_html=True)
+            st.latex(f"f(x) = {sp.latex(parsed_live)}")
+            st.markdown('</div>', unsafe_allow_html=True)
+        except Exception:
+            st.caption("(Awaiting correct operational syntax format entry...)")
+            
+    if st.button("Execute Differential Sequence Computation", type="primary"):
         try:
             derived_sol = sp.diff(parsed_live, x, order_val)
             st.markdown("---")
-            st.markdown("### 📋 Final Calculated Workspace Matrix")
+            st.markdown("### 📋 Calculation Tracking Matrix Output")
             
-            col_res1, col_res2 = st.columns(2)
-            with col_res1:
-                st.info("Input Expression Matrix:")
+            c_res1, c_res2 = st.columns(2)
+            with c_res1:
+                st.markdown("<div class='metric-card' style='text-align:center;'>", unsafe_allow_html=True)
+                st.caption("Input Matrix State:")
                 st.latex(f"f(x) = {sp.latex(parsed_live)}")
-            with col_res2:
-                st.success("Computed Real Display Output:")
+                st.markdown("</div>", unsafe_allow_html=True)
+            with c_res2:
+                st.markdown("<div class='metric-card' style='text-align:center; border: 1px solid #10B981;'>", unsafe_allow_html=True)
+                st.caption("Resolved Real-Display Derivative Output:")
                 if order_val == 1:
                     st.latex(f"f'(x) = {sp.latex(derived_sol)}")
-                elif order_val == 2:
-                    st.latex(f"f''(x) = {sp.latex(derived_sol)}")
                 else:
                     st.latex(f"\\frac{{d^{order_val}}}{{dx^{order_val}}} f(x) = {sp.latex(derived_sol)}")
-            
-            st.markdown("---")
-            st.subheader("📍 Target Coordinate Gradient Evaluator")
-            eval_pt = st.number_input("Evaluate Target Axis Point location ($x_0$):", value=2.0)
-            numeric_slope = float(derived_sol.subs(x, eval_pt).evalf())
-            st.metric(f"Instantaneous Tangent Velocity Slope at x = {eval_pt}", f"{numeric_slope:.4f}")
+                st.markdown("</div>", unsafe_allow_html=True)
+                
+            st.markdown("<div class='metric-card'>", unsafe_allow_html=True)
+            st.subheader("📍 Precise Coordinate Gradient Evaluation")
+            col_eval1, col_eval2 = st.columns(2)
+            with col_eval1:
+                eval_pt = st.number_input("Target Evaluation Point Coordinate ($x_0$):", value=2.0)
+            with col_eval2:
+                numeric_slope = float(derived_sol.subs(x, eval_pt).evalf())
+                st.metric(f"Instantaneous Tangent Gradient Velocity at x = {eval_pt}", f"{numeric_slope:.4f}")
+            st.markdown("</div>", unsafe_allow_html=True)
         except Exception as e:
-            st.error(f"Symbolic evaluation compilation processing error: {e}")
+            st.error(f"Differential engine validation execution error: {e}")
 
-# --- INTEGRATION SOLVER ---
-elif page == "integral_view":
-    st.title("🔗 Analytical Integration Modeling Studio")
-    st.write("Resolve exact symbolic primitives or map computational bounding regions via integration display frameworks.")
+# --- INTEGRATION CORE ---
+elif page == "🔗 Definite Integration Core":
+    st.markdown("<div class='metric-card'><h2>🔗 Analytical Integration Core Studio</h2><p style='color:#94A3B8;'>Resolve continuous integration primitives or evaluate coordinate bounding structures.</p></div>", unsafe_allow_html=True)
     
-    int_type = st.radio("Integration Operational Framework Type:", ["Indefinite Calculus", "Definite Calculus Boundary Matrix"])
-    int_expr_str = st.text_input("Enter Integrand Function Expression f(x):", "3*x**2 + 2*x")
+    int_type = st.radio("Select Integration Framework Structure Mode:", ["Indefinite Calculus Track", "Definite Coordinate Boundary Matrix"], horizontal=True)
     
-    st.markdown("<p style='font-size:0.85rem; color:#818CF8; margin-bottom:2px; font-weight:600;'>✨ Live Real Display Math Preview Panel:</p>", unsafe_allow_html=True)
-    try:
-        x = sp.symbols('x')
-        parsed_int_expr = sp.sympify(int_expr_str)
-        st.markdown('<div class="real-display-panel">', unsafe_allow_html=True)
-        if int_type == "Indefinite Calculus":
-            st.latex(f"\\int \\left({sp.latex(parsed_int_expr)}\\right) dx")
-        else:
-            st.latex(f"\\int_{{a}}^{{b}} \\left({sp.latex(parsed_int_expr)}\\right) dx")
-        st.markdown('</div>', unsafe_allow_html=True)
-    except Exception:
-        st.caption("(Waiting for valid integrated input expression configuration...)")
-        
-    try:
-        if int_type == "Indefinite Calculus":
-            if st.button("Compute Indefinite Primitive Matrix", type="primary"):
-                sol_int = sp.integrate(parsed_int_expr, x)
-                st.markdown("---")
-                st.markdown("### 📋 Final Calculated Workspace Matrix")
-                st.latex(f"\\int \\left({sp.latex(parsed_int_expr)}\\right) dx = {sp.latex(sol_int)} + C")
-                
-        else:
-            col_b1, col_b2 = st.columns(2)
-            with col_b1:
-                lower_bound = st.number_input("Lower Range Matrix Limit Boundary ($a$)", value=0.0)
-            with col_b2:
-                upper_bound = st.number_input("Upper Range Matrix Limit Boundary ($b$)", value=2.0)
-                
-            if st.button("Compute Definite Boundary Area Enclosure", type="primary"):
-                sol_def_int = sp.integrate(parsed_int_expr, (x, lower_bound, upper_bound))
-                st.markdown("---")
-                st.markdown("### 📋 Final Calculated Workspace Matrix")
-                st.latex(f"\\int_{{{lower_bound}}}^{{{upper_bound}}} \\left({sp.latex(parsed_int_expr)}\\right) dx = {float(sol_def_int.evalf()):.5f}")
-    except Exception as e:
-        st.error(f"Integration Engine parse error: {e}")
+    col_i1, col_i2 = st.columns(2)
+    with col_i1:
+        int_expr_str = st.text_input("Enter Core Integrand Formula String f(x):", "4*x**3 + 3*x**2")
+    with col_i2:
+        st.markdown("<p style='font-size:0.85rem; color:#818CF8; margin-bottom:2px; font-weight:600;'>✨ Live Real Display Math Preview Panel:</p>", unsafe_allow_html=True)
+        try:
+            x = sp.symbols('x')
+            parsed_int = sp.sympify(int_expr_str)
+            st.markdown('<div class="real-display-panel">', unsafe_allow_html=True)
+            if int_type == "Indefinite Calculus Track":
+                st.latex(f"\\int \\left({sp.latex(parsed_int)}\\right) dx")
+            else:
+                st.latex(f"\\int_{{a}}^{{b}} \\left({sp.latex(parsed_int)}\\right) dx")
+            st.markdown('</div>', unsafe_allow_html=True)
+        except Exception:
+            st.caption("(Awaiting continuous function sequence entry configuration...)")
+            
+    if int_type == "Indefinite Calculus Track":
+        if st.button("Compute Primitive Integral Solution Matrix", type="primary"):
+            try:
+                sol_int = sp.integrate(parsed_int, x)
+                st.markdown("<div class='metric-card' style='text-align:center; border:1px solid #10B981;'>", unsafe_allow_html=True)
+                st.subheader("Resolved Anti-Derivative Formulation Matrix")
+                st.latex(f"\\int \\left({sp.latex(parsed_int)}\\right) dx = {sp.latex(sol_int)} + C")
+                st.markdown("</div>", unsafe_allow_html=True)
+            except Exception as e:
+                st.error(f"Solver fault event: {e}")
+    else:
+        col_b1, col_b2 = st.columns(2)
+        with col_b1:
+            lower_bound = st.number_input("Lower Vector Limit Matrix Boundary ($a$)", value=0.0)
+        with col_b2:
+            upper_bound = st.number_input("Upper Vector Limit Matrix Boundary ($b$)", value=3.0)
+            
+        if st.button("Execute Definite Boundary Calculation Enclosure", type="primary"):
+            try:
+                sol_def_int = sp.integrate(parsed_int, (x, lower_bound, upper_bound))
+                st.markdown("<div class='metric-card' style='text-align:center; border:1px solid #10B981;'>", unsafe_allow_html=True)
+                st.subheader("Resolved Bounding Area Definite Value Matrix")
+                st.latex(f"\\int_{{{lower_bound}}}^{{{upper_bound}}} \\left({sp.latex(parsed_int)}\\right) dx = {float(sol_def_int.evalf()):.5f}")
+                st.markdown("</div>", unsafe_allow_html=True)
+            except Exception as e:
+                st.error(f"Solver boundary constraint error: {e}")
 
-# --- TRIGONOMETRIC TABLE GENERATOR ---
-elif page == "📐 Trig Table Generator":
-    st.title("📐 Dynamic Trigonometric Reference Array Matrix")
-    st.write("Generate customized, high-precision trigonometric data grids across flexible interval configurations.")
+# --- HIGH-PRECISION TRIG ARRAY ---
+elif page == "📐 High-Precision Trig Array":
+    st.markdown("<div class='metric-card'><h2>📐 High-Precision Trigonometric Data Matrix Array</h2><p style='color:#94A3B8;'>Generate systematic custom geometric ratio datasets based on flexible angle frequency configurations.</p></div>", unsafe_allow_html=True)
     
     col_t1, col_t2, col_t3 = st.columns(3)
     with col_t1:
-        angle_mode = st.radio("Angle Measurement Base Scale Unit:", ["Degrees", "Radians"])
+        angle_mode = st.radio("Angular Base Mapping Standard System:", ["Degrees", "Radians"])
     with col_t2:
-        step_val = st.number_input("Incremental Step Frequency Bounds", min_value=0.1, max_value=45.0, value=15.0 if angle_mode == "Degrees" else 0.25)
+        step_val = st.number_input("Incremental Grid Step Vector Frequency Size:", min_value=0.1, max_value=90.0, value=15.0 if angle_mode == "Degrees" else 0.2)
     with col_t3:
-        precision_val = st.slider("Decimal Fraction Precision Cutoff", 2, 10, 5)
+        precision_val = st.slider("Float Fraction Decimal Rounding Precision", 2, 10, 6)
         
     if angle_mode == "Degrees":
         angles = np.arange(0, 360 + step_val, step_val)
@@ -442,73 +430,80 @@ elif page == "📐 Trig Table Generator":
         rad_angles = angles
         
     trig_data = {
-        f"Angle ({angle_mode})": np.round(angles, precision_val),
-        "Sine (sin)": np.round(np.sin(rad_angles), precision_val),
-        "Cosine (cos)": np.round(np.cos(rad_angles), precision_val),
-        "Tangent (tan)": [f"±∞" if np.isclose(np.abs(np.cos(r)), 0.0, atol=1e-10) else str(np.round(np.tan(r), precision_val)) for r in rad_angles]
+        f"Angle Scalar ({angle_mode})": np.round(angles, precision_val),
+        "Sine Ratio Vector (sin)": np.round(np.sin(rad_angles), precision_val),
+        "Cosine Ratio Vector (cos)": np.round(np.cos(rad_angles), precision_val),
+        "Tangent Ratio Vector (tan)": [f"±∞" if np.isclose(np.abs(np.cos(r)), 0.0, atol=1e-10) else str(np.round(np.tan(r), precision_val)) for r in rad_angles]
     }
     
     df_trig = pd.DataFrame(trig_data)
-    st.dataframe(df_trig, use_container_width=True, height=450)
-    st.download_button("Export Compiled Trigonometric Matrix Data Block", df_trig.to_csv(index=False), "trig_matrix_export.csv")
+    st.markdown("<div class='metric-card'>", unsafe_allow_html=True)
+    st.dataframe(df_trig, use_container_width=True, height=400)
+    st.download_button("Download Compiled Trigonometric Reference Table Array Block", df_trig.to_csv(index=False), "trig_matrix_export.csv")
+    st.markdown("</div>", unsafe_allow_html=True)
 
-# --- ADVANCED GEOMETRY ---
-elif page == "Advanced Geometry":
-    st.title("💎 Advanced 3D Spatial Solid Geometry Core")
-    st.write("Compute surface areas, volumes, and directional space constraints for multidimensional geometric structures.")
+# --- SPATIAL SOLID DIMENSIONS ---
+elif page == "💎 Spatial Solid Dimensions":
+    st.markdown("<div class='metric-card'><h2>💎 Spatial Geometric Volumetric Matrix Core</h2><p style='color:#94A3B8;'>Analyze parameters, total surface spatial areas, and displacement boundaries for three-dimensional geometries.</p></div>", unsafe_allow_html=True)
     
-    solid_type = st.selectbox("Select Target Solid Structure Matrix:", ["Sphere", "Right Circular Cone", "Ellipsoid Core"])
+    solid_type = st.selectbox("Select Target Solid Object Vector Configuration:", ["Sphere Form Solid", "Right Circular Cone Structure", "Ellipsoidal Core Space"])
     
-    if solid_type == "Sphere":
-        sphere_r = st.number_input("Sphere Radius ($r$)", min_value=0.01, value=5.0)
+    st.markdown("<div class='metric-card'>", unsafe_allow_html=True)
+    if solid_type == "Sphere Form Solid":
+        sphere_r = st.number_input("Sphere Radius Vector length ($r$)", min_value=0.01, value=6.0)
         vol_sph = (4/3) * np.pi * (sphere_r**3)
         area_sph = 4 * np.pi * (sphere_r**2)
-        st.metric("Total Enclosed Volume ($V$)", f"{vol_sph:.5f}")
-        st.metric("Total Surface Area Boundary ($A$)", f"{area_sph:.5f}")
         
-    elif solid_type == "Right Circular Cone":
-        cone_r = st.number_input("Base Aperture Radius ($r$)", min_value=0.01, value=3.0)
-        cone_h = st.number_input("Vertical Altitude Displacement Height ($h$)", min_value=0.01, value=7.0)
+        c_v1, c_v2 = st.columns(2)
+        c_v1.metric("Enclosed Volumetric Space Displacement ($V$)", f"{vol_sph:.5f}")
+        c_v2.metric("Boundary Total Surface Area Enclosure ($A$)", f"{area_sph:.5f}")
+        
+    elif solid_type == "Right Circular Cone Structure":
+        cone_r = st.number_input("Base Base Aperture Radius ($r$)", min_value=0.01, value=4.0)
+        cone_h = st.number_input("Vertical Altitude Vector Height Dimension ($h$)", min_value=0.01, value=9.0)
         slant_s = np.sqrt(cone_r**2 + cone_h**2)
         vol_cone = (1/3) * np.pi * (cone_r**2) * cone_h
         area_cone = np.pi * cone_r * (cone_r + slant_s)
-        st.metric("Calculated Enclosed Volume", f"{vol_cone:.5f}")
-        st.metric("Calculated Total Boundary Surface Area", f"{area_cone:.5f}")
         
-    elif solid_type == "Ellipsoid Core":
-        semi_a = st.number_input("Semi-Principal X Axis Dimension Vector ($a$)", min_value=0.01, value=4.0)
-        semi_b = st.number_input("Semi-Principal Y Axis Dimension Vector ($b$)", min_value=0.01, value=3.0)
-        semi_c = st.number_input("Semi-Principal Z Axis Dimension Vector ($c$)", min_value=0.01, value=5.0)
+        c_v1, c_v2 = st.columns(2)
+        c_v1.metric("Computed Enclosed Interior Volume", f"{vol_cone:.5f}")
+        c_v2.metric("Computed Boundary Exterior Surface Area", f"{area_cone:.5f}")
+        
+    elif solid_type == "Ellipsoidal Core Space":
+        semi_a = st.number_input("Semi-Principal Axis Vector Dimension (X Axis - $a$)", min_value=0.01, value=5.0)
+        semi_b = st.number_input("Semi-Principal Axis Vector Dimension (Y Axis - $b$)", min_value=0.01, value=4.0)
+        semi_c = st.number_input("Semi-Principal Axis Vector Dimension (Z Axis - $c$)", min_value=0.01, value=6.0)
         vol_ellip = (4/3) * np.pi * semi_a * semi_b * semi_c
-        st.metric("Ellipsoidal Interior Spatial Volume Enclosure", f"{vol_ellip:.5f}")
+        st.metric("Total Ellipsoidal Core Volume Enclosure", f"{vol_ellip:.5f}")
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # --- FORMULA LIBRARY ---
-elif page == "📚 Formula Library":
-    st.title("📚 Academic Formula Reference Manual")
-    search_q = st.text_input("🔍 Search Formulas Across Domains").lower()
+elif page == "📚 Formula Reference Matrix":
+    st.markdown("<div class='metric-card'><h2>📚 Reference Manual Identity Formula Matrix</h2><p style='color:#94A3B8;'>Browse and bookmark rigorous algebraic, geometric, and calculus formulation profiles.</p></div>", unsafe_allow_html=True)
+    
+    search_q = st.text_input("🔍 Filter formulas and identities via custom domain keywords:").lower()
     
     for category, formulas in FORMULA_DB.items():
-        with st.expander(f"{category} Matrices", expanded=True):
+        with st.expander(f"📦 Category Domain Matrix: {category}", expanded=True):
             for name, formula in formulas.items():
                 if search_q in name.lower() or search_q in category.lower():
-                    col_f, col_b = st.columns([0.8, 0.2])
-                    with col_f:
-                        st.markdown(f"**{name}**")
-                        st.markdown(formula)
-                    with col_b:
-                        fav_label = "⭐ Bookmarked" if name in st.session_state.favorites else "☆ Bookmark"
-                        if st.button(fav_label, key=f"f_{name}"):
-                            toggle_favorite(name)
-                            st.rerun()
+                    st.markdown(f"""
+                        <div class="dict-card">
+                            <h4 style="color:#6366F1; margin:0 0 0.5rem 0;">{name}</h4>
+                        </div>
+                    """, unsafe_allow_html=True)
+                    st.latex(formula.replace("$$", ""))
+                    
+                    fav_label = "⭐ Identity Bookmarked" if name in st.session_state.favorites else "☆ Add Marker"
+                    if st.button(fav_label, key=f"f_lib_{name}"):
+                        toggle_favorite(name)
+                        st.rerun()
 
-# --- DICTIONARY ---
-elif page == "📖 Dictionary":
-    st.title("📖 Comprehensive Mathematical Formula Dictionary")
-    st.write("Browse structured analytical concepts paired with mathematical identities and formulas.")
+# --- LEXICON DICTIONARY ---
+elif page == "📖 Lexicon Dictionary":
+    st.markdown("<div class='metric-card'><h2>📖 Mathematical Terms Lexicon Dictionary</h2><p style='color:#94A3B8;'>Verified academic dictionary entries rendered alongside underlying formulas.</p></div>", unsafe_allow_html=True)
     
-    search_d = st.text_input("🔍 Search term, keyword, or system theorem formula component:", "")
-    
-    st.markdown("<br>", unsafe_allow_html=True)
+    search_d = st.text_input("🔍 Search terminology indexes, definitions, or equations:")
     
     found_any = False
     for term, data in DICT_DB.items():
@@ -517,36 +512,37 @@ elif page == "📖 Dictionary":
             
             st.markdown(f"""
                 <div class="dict-card">
-                    <h3 style="color: #818CF8; margin: 0 0 0.5rem 0; font-size: 1.4rem;">{term}</h3>
-                    <p style="color: #E2E8F0; font-size: 1rem; line-height: 1.6; margin-bottom: 1rem;">{data['def']}</p>
+                    <h3 style="color: #818CF8; margin: 0 0 0.5rem 0; font-size: 1.35rem;">{term}</h3>
+                    <p style="color: #E2E8F0; font-size: 0.98rem; line-height: 1.6; margin-bottom: 1rem;">{data['def']}</p>
                 </div>
             """, unsafe_allow_html=True)
             
-            st.markdown("**Governing Formula Identity:**")
-            st.markdown(data["formula"])
+            st.latex(data["formula"].replace("$$", ""))
             
-            fav_label = "⭐ Bookmarked" if term in st.session_state.favorites else "☆ Add to Bookmark Stack"
-            if st.button(fav_label, key=f"dict_fav_{term}"):
+            fav_label = "⭐ Flagged inside Sidebar Stack" if term in st.session_state.favorites else "☆ Flag Definition Matrix"
+            if st.button(fav_label, key=f"lex_fav_{term}"):
                 toggle_favorite(term)
                 st.rerun()
                 
-            st.markdown("<div style='margin-bottom: 2rem;'></div>", unsafe_allow_html=True)
+            st.markdown("<br>", unsafe_allow_html=True)
             
     if not found_any:
-        st.info("No matching mathematical terminology located in the local index.")
+        st.info("No matching mathematical vocabulary entries discovered in local registry indexes.")
 
-# --- GRAPHING TOOL ---
-elif page == "📈 Graphing Tool":
-    st.title("📈 Interactive Advanced Plot Engine")
+# --- VISUAL GRAPH MATRIX ---
+elif page == "📈 Visual Graph Matrix":
+    st.markdown("<div class='metric-card'><h2>📈 Interactive Vector Function Visualizer</h2><p style='color:#94A3B8;'>Plot two-dimensional wave trajectories across fine sample boundaries.</p></div>", unsafe_allow_html=True)
     
-    col1, col2 = st.columns([1, 3])
-    with col1:
-        func_str = st.text_input("Enter Function f(x)", "x**2 - 4*x + 3")
-        x_min = st.number_input("X Min", value=-10.0)
-        x_max = st.number_input("X Max", value=10.0)
-        points = st.slider("Resolution Sample Points", 50, 1000, 200)
+    col_g1, col_g2 = st.columns([1, 2])
+    with col_g1:
+        st.markdown("<div class='metric-card'>", unsafe_allow_html=True)
+        func_str = st.text_input("Define Coordinate Curve f(x):", "x**2 - 5*x + 6")
+        x_min = st.number_input("Grid Start Axis Range Min", value=-8.0)
+        x_max = st.number_input("Grid End Axis Range Max", value=8.0)
+        points = st.slider("Coordinate Variable Resolution Samples", 60, 1200, 300)
+        st.markdown("</div>", unsafe_allow_html=True)
         
-    with col2:
+    with col_g2:
         try:
             x_vals = np.linspace(x_min, x_max, points)
             x = sp.symbols('x')
@@ -555,89 +551,114 @@ elif page == "📈 Graphing Tool":
             y_vals = f_num(x_vals)
             
             fig = go.Figure()
-            fig.add_trace(go.Scatter(x=x_vals, y=y_vals, mode='lines', name=f"f(x) = {func_str}", line=dict(color='#636EFA', width=3)))
-            fig.update_layout(title=f"Plot Architecture: {func_str}", template="plotly_dark", xaxis_title="X", yaxis_title="Y")
+            fig.add_trace(go.Scatter(x=x_vals, y=y_vals, mode='lines', name=f"f(x)", line=dict(color='#6366F1', width=3)))
+            fig.update_layout(title=f"Plot Core Frame Output Matrix: {func_str}", template="plotly_dark", xaxis_title="Independent Axis X", yaxis_title="Dependent Axis Y")
             st.plotly_chart(fig, use_container_width=True)
         except Exception as e:
-            st.error(f"Plot generation failed: {e}")
+            st.error(f"Plot layout composition matrix generation failed: {e}")
 
-# --- STATISTICS CALCULATOR ---
-elif page == "📊 Statistics Calc":
-    st.title("📊 Statistical Computational Engine")
-    data_input = st.text_area("Input Sample Dataset (Comma separated entries)", "12, 15, 12, 18, 22, 15, 14, 19, 20")
+# --- DATASET ANALYTICAL CORE ---
+elif page == "📊 Dataset Analytical Core":
+    st.markdown("<div class='metric-card'><h2>📊 Continuous Dataset Statistical Analytics Core</h2><p style='color:#94A3B8;'>Evaluate dispersion trends, averages, deviations, and standard variance parameters.</p></div>", unsafe_allow_html=True)
+    
+    st.markdown("<div class='metric-card'>", unsafe_allow_html=True)
+    data_input = st.text_area("Input Real Values Sample Vector Dataset (Separate via comma formatting breaks):", "14, 18, 14, 22, 26, 18, 16, 21, 24")
     
     if data_input:
         try:
             arr = np.array([float(x.strip()) for x in data_input.split(",") if x.strip()])
-            col1, col2 = st.columns(2)
-            with col1:
-                st.metric("Arithmetic Mean (μ)", f"{np.mean(arr):.4f}")
-                st.metric("Median Target", f"{np.median(arr):.4f}")
-            with col2:
-                st.metric("Sample Variance (σ²)", f"{np.var(arr, ddof=1):.4f}")
-                st.metric("Std Deviation (σ)", f"{np.std(arr, ddof=1):.4f}")
+            col_s1, col_s2 = st.columns(2)
+            with col_s1:
+                st.metric("Calculated Arithmetic Mean Distribution (μ)", f"{np.mean(arr):.4f}")
+                st.metric("Calculated Median Center Position Value", f"{np.median(arr):.4f}")
+            with col_s2:
+                st.metric("Calculated Unbiased Sample Variance (σ²)", f"{np.var(arr, ddof=1):.4f}")
+                st.metric("Calculated Standard Deviation Deviation (σ)", f"{np.std(arr, ddof=1):.4f}")
         except Exception as e:
-            st.error(f"Parsing error: {e}")
+            st.error(f"Dataset numerical evaluation breakdown fault event: {e}")
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # --- MATRIX CALCULATOR ---
-elif page == "🔢 Matrix Calc":
-    st.title("🔢 Linear Algebra Matrix Engine")
+elif page == "🔢 Matrix Vector Solver":
+    st.markdown("<div class='metric-card'><h2>🔢 Linear Algebra Array Matrix Vector Solver</h2><p style='color:#94A3B8;'>Map square 2x2 vector transformations, calculate determinants, and extract configuration matrix inversions.</p></div>", unsafe_allow_html=True)
     
-    st.write("Construct Matrix A (2x2 Matrix Block)")
-    col1, col2 = st.columns(2)
-    with col1:
-        a11 = st.number_input("A[1,1]", value=1.0)
-        a21 = st.number_input("A[2,1]", value=0.0)
-    with col2:
-        a12 = st.number_input("A[1,2]", value=0.0)
-        a22 = st.number_input("A[2,2]", value=1.0)
+    st.markdown("<div class='metric-card'>", unsafe_allow_html=True)
+    st.caption("Construct Coefficients for Array Matrix A Structure Workspace Matrix Layer:")
+    col_m1, col_m2 = st.columns(2)
+    with col_m1:
+        a11 = st.number_input("Row index 1, Col index 1 Element [1,1]", value=2.0)
+        a21 = st.number_input("Row index 2, Col index 1 Element [2,1]", value=1.0)
+    with col_m2:
+        a12 = st.number_input("Row index 1, Col index 2 Element [1,2]", value=3.0)
+        a22 = st.number_input("Row index 2, Col index 2 Element [2,2]", value=4.0)
         
     mat_A = np.array([[a11, a12], [a21, a22]])
     
-    st.markdown("### Computations Matrix Output")
-    st.write("Matrix array state:", mat_A)
+    st.markdown("---")
+    st.subheader("Calculated Matrix Operations Matrix Summary")
     det = np.linalg.det(mat_A)
-    st.metric("Determinant value", f"{det:.4f}")
+    st.metric("Extracted Transform Matrix Determinant Factor Value", f"{det:.4f}")
     
-    if det != 0:
-        st.write("Inverse Matrix Workspace:", np.linalg.inv(mat_A))
-    else:
-        st.warning("Determinant is zero; computing an inverse matrix structure is impossible.")
+    c_mr1, c_mr2 = st.columns(2)
+    with c_mr1:
+        st.write("Current Input Matrix Configuration A State:")
+        st.code(str(mat_A))
+    with c_mr2:
+        if not np.isclose(det, 0.0):
+            st.write("Computed Inverse Transform Array Matrix Workspace ($A^{-1}$):")
+            st.code(str(np.linalg.inv(mat_A)))
+        else:
+            st.warning("Determinant evaluates to zero value. System cannot execute array matrix inversion sequence operations.")
+    st.markdown("</div>", unsafe_allow_html=True)
 
-# --- UNIT CONVERTER ---
-elif page == "🔄 Unit Converter":
-    st.title("🔄 Multi-Domain Unit Transform Engine")
-    conv_type = st.selectbox("Measurement Dimension", ["Length", "Weight"])
+# --- METRIC CONVERTER ---
+elif page == "🔄 Metric Transformation Shield":
+    st.markdown("<div class='metric-card'><h2>🔄 Multi-Dimensional Metric Conversion Matrix Core</h2><p style='color:#94A3B8;'>Calculate standard displacement variables and weight scale variables instantly.</p></div>", unsafe_allow_html=True)
     
-    if conv_type == "Length":
-        val = st.number_input("Input Value Value", value=1.0)
-        unit_from = st.selectbox("From Unit", ["Meters", "Kilometers", "Miles"])
-        unit_to = st.selectbox("Target Transform Unit", ["Meters", "Kilometers", "Miles"])
+    st.markdown("<div class='metric-card'>", unsafe_allow_html=True)
+    conv_type = st.selectbox("Identify Spatial System Dimension Type Category:", ["Linear Length Bounds", "Mass Weight Boundaries"])
+    
+    if conv_type == "Linear Length Bounds":
+        val = st.number_input("Input Dimension Scalar Value To Convert", value=5.0)
+        unit_from = st.selectbox("Baseline Metric Origin Unit:", ["Meters Scale", "Kilometers Scale", "Miles Vector Unit"])
+        unit_to = st.selectbox("Objective Metric Target Transform Unit Location:", ["Meters Scale", "Kilometers Scale", "Miles Vector Unit"])
         
-        factors = {"Meters": 1.0, "Kilometers": 1000.0, "Miles": 1609.34}
+        factors = {"Meters Scale": 1.0, "Kilometers Scale": 1000.0, "Miles Vector Unit": 1609.344}
         base_val = val * factors[unit_from]
         target_val = base_val / factors[unit_to]
-        st.metric("Resulting Dimension Conversion", f"{target_val:.4f} {unit_to}")
+        
+        st.markdown("---")
+        st.metric("Resolved Metric Equivalent Output Transformation Vector:", f"{target_val:.5f} {unit_to}")
+    else:
+        st.write("(Mass weighting scales run symmetrically along proportional calculation frameworks.)")
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # --- PRACTICE ZONE ---
-elif page == "🎯 Practice Zone":
-    st.title("🎯 Training Core / Mathematical Arena")
+elif page == "🎯 Operational Practice Arena":
+    st.markdown("<div class='metric-card'><h2>🎯 Interactive Core Evaluation Training Arena</h2><p style='color:#94A3B8;'>Maintain calculations competence index stats through verified numerical testing.</p></div>", unsafe_allow_html=True)
     
-    if st.button("Generate New Training Problem") or st.session_state.quiz_current is None:
-        val1 = random.randint(1, 12)
-        val2 = random.randint(1, 12)
+    st.markdown("<div class='metric-card'>", unsafe_allow_html=True)
+    if st.button("Generate Dynamic Training Matrix Matrix Core Question Variant") or st.session_state.quiz_current is None:
+        val1 = random.randint(4, 14)
+        val2 = random.randint(3, 13)
         ans = val1 * val2
-        options = [ans, ans + random.randint(1, 5), ans - random.randint(1, 5), random.randint(1, 144)]
+        options = [ans, ans + random.randint(2, 6), ans - random.randint(2, 6), random.randint(20, 180)]
         random.shuffle(options)
-        st.session_state.quiz_current = {"question": f"What is {val1} × {val2}?", "options": options, "answer": ans}
+        st.session_state.quiz_current = {"question": f"Determine product result matrix matching: {val1} \\times {val2}", "options": options, "answer": ans}
         
-    st.markdown(f"#### Question: {st.session_state.quiz_current['question']}")
-    user_choice = st.radio("Choose correct structural verification element:", st.session_state.quiz_current['options'])
+    st.markdown("##### Assessment Target Focus Challenge Element:")
+    st.latex(st.session_state.quiz_current['question'])
     
-    if st.button("Submit Answer Vector"):
+    user_choice = st.radio("Identify proper numerical evaluation solution verification sequence configuration options:", st.session_state.quiz_current['options'])
+    
+    if st.button("Submit Verification Answer Vector Array Matrix", type="primary"):
         st.session_state.quiz_score['total'] += 1
         if user_choice == st.session_state.quiz_current['answer']:
-            st.success("Correct Evaluation!")
+            st.success("Correct numerical operational response. Mathematical validation check verification successfully confirmed.")
             st.session_state.quiz_score['correct'] += 1
         else:
-            st.error(f"Incorrect result structure. Right option variant was: {st.session_state.quiz_current['answer']}")
+            st.error(f"Operational breakdown calculation variation anomaly. Expected objective matching value state was: {st.session_state.quiz_current['answer']}")
+            
+    st.markdown("---")
+    st.caption(f"Score Record Tracking Core Dashboard Accumulator Matrix Metrics: {st.session_state.quiz_score['correct']} / {st.session_state.quiz_score['total']} solutions verified.")
+    st.markdown("</div>", unsafe_allow_html=True)
